@@ -14,6 +14,7 @@
   "dependencies": {
     "@argent/get-starknet": "^3.0",
     "@ethersproject/units": "^5.6.1",
+    "@types/big.js": "^6.1.6",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
     "axios-cache-interceptor": "^0.10.7",
@@ -24,7 +25,7 @@
     "dayjs": "^1.11.5",
     "echarts": "^5.4.0",
     "element-plus": "^2.2.18",
-    "l0k_swap-sdk": "https://github.com/10k-swap/10k_swap-sdk.git#main",
+    "l0k_swap-sdk": "https://github.com/hxfjsw/10k_swap-sdk.git#main",
     "lodash": "^4.17.21",
     "nanoid": "^4.0.0",
     "numeral": "^2.0.6",
