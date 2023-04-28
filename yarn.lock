@@ -549,6 +549,11 @@
     "@noble/hashes" "~1.1.1"
     "@scure/base" "~1.1.0"
 
+"@types/big.js@^6.1.6":
+  version "6.1.6"
+  resolved "https://registry.npmmirror.com/@types/big.js/-/big.js-6.1.6.tgz#3d417e758483d55345a03a087f7e0c87137ca444"
+  integrity sha512-0r9J+Zz9rYm2hOTwiMAVkm3XFQ4u5uTK37xrQMhc9bysn/sf/okzovWMYYIBMFTn/yrEZ11pusgLEaoarTlQbA==
+
 "@types/eslint@^8.4.5":
   version "8.4.10"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.4.10.tgz#19731b9685c19ed1552da7052b6f668ed7eb64bb"
@@ -1933,9 +1938,9 @@ json5@^2.2.1:
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.1.tgz#655d50ed1e6f95ad1a3caababd2b0efda10b395c"
   integrity sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==
 
-"l0k_swap-sdk@https://github.com/10k-swap/10k_swap-sdk.git#main":
+"l0k_swap-sdk@https://github.com/hxfjsw/10k_swap-sdk.git#main":
   version "0.9.0"
-  resolved "https://github.com/10k-swap/10k_swap-sdk.git#2e992c2af39520ca6dabedfbc23508632b864f69"
+  resolved "https://github.com/hxfjsw/10k_swap-sdk.git#66b63aa26eed887959a082a77772f92e1af7788f"
   dependencies:
     big.js "^6.2.1"
     decimal.js-light "^2.5.1"
