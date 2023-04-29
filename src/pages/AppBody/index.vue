@@ -58,16 +58,15 @@ export default defineComponent({
     z-index: -1;
     height: 100vh;
     width: 100vw;
-    background-repeat: no-repeat;
-    background-size: 100% 100vh;
-    @include bg-prefix('./bg2');
-    &.root {
-      @include bg-prefix('./bg');
-    }
-    @media screen and (min-width: $mobile-size) and (max-width: 1400px) {
-      background-size: 1400px 100%;
-      background-position: center;
-    }
+    background-color: #000;
+    // @include bg-prefix('./bg2');
+    // &.root {
+    //   // @include bg-prefix('./bg');
+    // }
+    // @media screen and (min-width: $mobile-size) and (max-width: 1400px) {
+    //   background-size: 1400px 100%;
+    //   background-position: center;
+    // }
   }
   .socials {
     position: absolute;

@@ -4,24 +4,15 @@
       <SettingIcon class="setting" width="17px" @click="onSetting" />
     </template>
     <div class="l0k-swap-swap-content">
-      <CurrencyInputPanel
-        :value="formattedAmounts[Field.INPUT]"
-        :token="currencies[Field.INPUT]"
-        :currencyBalance="currencyBalances[Field.INPUT]"
-        :onMax="onMax"
-        @token-select="onInputSelect"
-        @input="handleTypeInput"
-      />
+      <CurrencyInputPanel :value="formattedAmounts[Field.INPUT]" :token="currencies[Field.INPUT]"
+        :currencyBalance="currencyBalances[Field.INPUT]" :onMax="onMax" @token-select="onInputSelect"
+        @input="handleTypeInput" />
+      <img src="./img/btn.png" alt="" class="btn">
       <div class="switch-wrap">
         <SwitchIcon class="switch" @click="onSwitch" />
       </div>
-      <CurrencyInputPanel
-        :value="formattedAmounts[Field.OUTPUT]"
-        :token="currencies[Field.OUTPUT]"
-        :currencyBalance="currencyBalances[Field.OUTPUT]"
-        @token-select="onOutputSelect"
-        @input="handleTypeOutput"
-      />
+      <CurrencyInputPanel :value="formattedAmounts[Field.OUTPUT]" :token="currencies[Field.OUTPUT]"
+        :currencyBalance="currencyBalances[Field.OUTPUT]" @token-select="onOutputSelect" @input="handleTypeOutput" />
       <div class="swap-info">
         <div class="loading" v-if="loadingTrade">
           <LoadingIcon class="icon" :color="'minor'" width="12px" />
@@ -41,20 +32,15 @@
         <Button :type="'primary'" :size="'large'" bold disabled v-else-if="noTrade && userHasSpecifiedInputOutput">
           {{ t('swap.insufficient_liquidity') }}
         </Button>
-        <Button
-          :type="'primary'"
-          :size="'large'"
-          bold
-          v-else
-          @click="onSwapClick"
-          :disabled="!isValid || loadingTrade || !v2Trade || (tradeToConfirm && !!swapCallbackError)"
-        >
+        <Button :type="'primary'" :size="'large'" bold v-else @click="onSwapClick"
+          :disabled="!isValid || loadingTrade || !v2Trade || (tradeToConfirm && !!swapCallbackError)">
           {{ !isValid ? swapInputError : t('swap.swap') }}
         </Button>
       </div>
     </div>
   </Page>
-  <ConfirmModal :show="swapState.showConfirm" :trade="tradeToConfirm" @swap="handleSwap" @dismiss="swapState.showConfirm = false" />
+  <ConfirmModal :show="swapState.showConfirm" :trade="tradeToConfirm" @swap="handleSwap"
+    @dismiss="swapState.showConfirm = false" />
   <WaittingModal :show="swapState.attemptingTxn" :desc="summary" @dismiss="swapState.attemptingTxn = false" />
   <RejectedModal :show="showRejectedModal" @dismiss="onReset" />
   <ScuccessModal :show="!!swapState.txHash" :tx="swapState.txHash" @dismiss="onReset" />
@@ -268,6 +254,15 @@ export default defineComponent({
 
   .l0k-swap-swap-content {
     padding: 0 20px 20px 20px;
+    position: relative;
+
+    .btn {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      top: 25%;
+      left: 42%;
+    }
 
     .switch-wrap {
       position: relative;

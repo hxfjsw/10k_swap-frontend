@@ -27,5 +27,6 @@ export default defineComponent({
 .l0k-swap-placards {
   width: 100vw;
   overflow: hidden;
+  display: none;
 }
 </style>

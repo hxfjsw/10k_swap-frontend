@@ -1,26 +1,36 @@
 <template>
   <div class="l0k-swap-app-nav-wrap">
-    <router-link
-      class="l0k-swap-app-nav"
-      :class="{ 'l0k-swap-app-nav-active': nav.path === route.path }"
-      v-for="nav in navs"
-      :key="nav.path"
-      :to="nav.path"
-      tag="div"
-    >
+    <router-link class="l0k-swap-app-nav" @click="handleChange(nav)"
+      :class="{ 'l0k-swap-app-nav-active': nav.path === route.path }" v-for="nav in navs" :key="nav.path" :to="nav.path"
+      tag="div">
       {{ nav.name }}
     </router-link>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="js">
+import { computed, defineComponent, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { SupporteChainId } from '../../constants'
 import navs from './navs'
 
 export default defineComponent({
   setup() {
+    onMounted(() => {
+      console.log(navs);
+      console.log(Object.values(navs)[0]);
+      Object.values(navs)[0].splice(2, 1)
+      Object.values(navs)[0].push({
+        path: 'https://starkgate.starknet.io/', name: 'Bridge'
+      })
+    })
+    const handleChange = nav => {
+      console.log(nav) // 此处 TS 将抛出异常
+      if (nav.path.indexOf("https") !== -1) {
+        window.open(nav.path,"_blank");
+      }
+
+    }
     const route = useRoute()
 
     const currentNavs = computed(() => navs[SupporteChainId])
@@ -28,6 +38,7 @@ export default defineComponent({
     return {
       navs: currentNavs,
       route,
+      handleChange
     }
   },
 })

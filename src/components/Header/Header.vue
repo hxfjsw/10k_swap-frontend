@@ -54,12 +54,12 @@ export default defineComponent({
     flex: 1;
 
     .logo {
-      display: inline-block;
+      display: none;
       width: 105px;
       height: 40px;
     }
     .alpha {
-      display: inline-block;
+      display: none;
       width: 45px;
       height: 16px;
       margin-left: 6px;
