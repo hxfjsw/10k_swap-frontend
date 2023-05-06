@@ -7,6 +7,23 @@
   ;
 }
 
+.l0k-swap-confirm-mint-modal .confirm button {
+  width: 166px;
+}
+.l0k-swap-connector .connected .address{
+  background-color: #D5532A !important;
+  color: #fff !important;
+  border-radius: 5px !important;
+
+}
+.l0k-swap-confirm-mint-modal .card {
+  background-color: #1d2237 !important;
+}
+
+.l0k-swap-confirm-swap-modal .card {
+  background-color: #1d2237 !important;
+}
+
 //.l0k-swap-swap-wrapper .l0k-swap-swap-content .switch-wrap .switch{
 //  display: none;
 //}
@@ -22,9 +39,11 @@
   margin-top: 100px !important;
 
 }
-.l0k-swap-connect-reject-modal .card{
+
+.l0k-swap-connect-reject-modal .card {
   background-color: #111524 !important;
 }
+
 .l0k-swap-socials {
   display: none;
 }

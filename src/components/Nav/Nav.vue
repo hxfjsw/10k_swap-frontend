@@ -19,6 +19,13 @@ export default defineComponent({
       console.log(navs);
       console.log(Object.values(navs)[0]);
       // Object.values(navs)[1].splice(2, 1)
+      Object.values(navs)[1].map((item: any) => {
+        console.log(item.name);
+        if (item.name === 'Analytics') {
+          item.name = "DashBoard"
+        }
+
+      })
       Object.values(navs)[1].push({
         path: 'https://starkgate.starknet.io/', name: 'Bridge'
       })

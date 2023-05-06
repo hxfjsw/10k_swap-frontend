@@ -1,9 +1,14 @@
 <template>
   <div class="l0k-swap-pair-modal-tabs">
-    <Button class="l0k-swap-pair-modal-tab" :class="{ active: item.value === current }" style="border: 1px solid #D5532A;
-  background-color: #111524;
-  color: #D5532A;" v-for="item in tabs" :key="item.value" :type="item.value === current ? 'primary' : 'text'"
-      :size="'small'" @click="onChange(item.value)">
+    <Button
+      class="l0k-swap-pair-modal-tab"
+      :class="{ active: item.value === current }"
+      v-for="item in tabs"
+      :key="item.value"
+      :type="item.value === current ? 'primary' : 'text'"
+      :size="'small'"
+      @click="onChange(item.value)"
+    >
       {{ item.label }}
     </Button>
   </div>

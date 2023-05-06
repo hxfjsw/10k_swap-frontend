@@ -1,8 +1,8 @@
 <template>
   <div class="l0k-swap-analytics-transactions">
-    <div class="header">
-      <!-- <Text class="title">{{ t('analytics.transactions') }}</Text> -->
-      <!-- <div class="date-picker">
+    <!-- <div class="header">
+      <Text class="title">{{ t('analytics.transactions') }}</Text>
+      <div class="date-picker">
         <el-date-picker
           v-model="dates"
           type="datetimerange"
@@ -11,10 +11,10 @@
           end-placeholder="End date"
           :clearable="false"
         />
-      </div> -->
+      </div>
     </div>
     <div class="wrapper">
-      <!-- <div class="summary">
+      <div class="summary">
         <div class="total">
           <Text class="head" :size="'small'" :color="'description-text'">{{ t('analytics.total_transactions') }}</Text>
           <Text class="value" :size="'small'">{{ transactions?.summary.total }}</Text>
@@ -28,9 +28,9 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
       <div class="transactions">
-        <!-- <div class="head">
+        <div class="head">
           <div class="label">
             <template v-for="item in TransactionTypes" :key="item.type">
               <Text
@@ -49,8 +49,8 @@
           <Text class="account" :size="'small'">{{ t('analytics.account') }}</Text>
           <Text class="fees" :size="'small'">{{ t('analytics.fees') }}</Text>
           <Text class="time" :size="'small'">{{ t('analytics.time') }}</Text>
-        </div> -->
-        <!-- <div class="contents">
+        </div>
+        <div class="contents">
           <div class="content" v-for="item in transactions?.transactions.transactions" :key="item.id">
             <Text class="label" :size="'small'" :title="getTransactionSummary(item)">{{ getTransactionSummary(item) }}</Text>
             <Text class="token0" :size="'small'">{{ numeral(item.amount0_human) }} {{ item.token0.symbol }}</Text>
@@ -61,10 +61,10 @@
               {{ dayjs().to(new Date(item.event_time)) }}
             </Text>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
-    <!-- <ElPagination
+    <ElPagination
       small
       :page-size="transactions?.transactions.limit"
       :total="transactions?.transactions.total ?? 0"

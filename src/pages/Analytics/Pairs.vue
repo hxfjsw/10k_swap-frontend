@@ -23,7 +23,7 @@
         <Text class="total_fees" :size="'small'">{{ t('analytics.total_fees') }}</Text>
       </div>
       <div class="contents">
-        <div class="content" v-for="(item, i) in pairs?.pairs" :key="item.pairAddress" style="border:1px solid #000;margin-top: -1px;">
+        <div class="content" v-for="(item, i) in pairs?.pairs" :key="item.pairAddress">
           <div class="name">
             <Text class="no" :size="'small'">{{ i + 1 }}</Text>
             <DoubleLogo :token0="getToken(item)[0]" :token1="getToken(item)[1]" coverage />
@@ -67,7 +67,7 @@ export default defineComponent({
     DoubleLogo,
   },
   setup() {
-    const dates = ref<[Date, Date]>([new Date(2023, 3, 25), new Date()])
+    const dates = ref<[Date, Date]>([new Date(2022, 8, 18), new Date()])
     const currentPage = ref(1)
 
     const {
