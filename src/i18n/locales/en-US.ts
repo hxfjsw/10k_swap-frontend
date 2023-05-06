@@ -94,7 +94,7 @@ export default {
     retweet: 'Retweet',
   },
   pool: {
-    title: 'Pools Overview',
+    title: 'Liquidity Pools',
     my_pools: 'My pools',
     pools: 'Pools',
     new_position: '+ New position',

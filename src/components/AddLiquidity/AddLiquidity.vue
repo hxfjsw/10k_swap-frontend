@@ -43,7 +43,8 @@
         {{ error ? error : t('add_liquidity.deposit') }}
       </Button>
       <Text class="desc" :size="'mini'" :color="'description-text'">
-        {{ t('add_liquidity.desc') }}
+        <!-- {{ t('add_liquidity.desc') }} -->
+        Add liquidity to a pre-existing liquidity pair. The ratio of tokens you add depends on the market value of the pair.
       </Text>
     </div>
   </div>
