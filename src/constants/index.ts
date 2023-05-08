@@ -24,7 +24,7 @@ export const CHAIN_LABELS: { [chainId in ChainId]: string } = {
 
 export const SERVER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'https://api.10kswap.com',
-  [ChainId.TESTNET]: 'http://139.180.213.23:3001',
+  [ChainId.TESTNET]: 'https://api.starkex.org',
 }
 
 export const SupporteChainId = ChainId.TESTNET
