@@ -550,6 +550,7 @@
     "@scure/base" "~1.1.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 "@types/big.js@^6.1.6":
   version "6.1.6"
@@ -557,6 +558,8 @@
   integrity sha512-0r9J+Zz9rYm2hOTwiMAVkm3XFQ4u5uTK37xrQMhc9bysn/sf/okzovWMYYIBMFTn/yrEZ11pusgLEaoarTlQbA==
 
 >>>>>>> main
+=======
+>>>>>>> c3509864888d6349351b1ab36d85073704d3b727
 "@types/eslint@^8.4.5":
   version "8.4.10"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.4.10.tgz#19731b9685c19ed1552da7052b6f668ed7eb64bb"
@@ -1942,6 +1945,7 @@ json5@^2.2.1:
   integrity sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 "l0k_swap-sdk@https://github.com/10k-swap/10k_swap-sdk.git#main":
   version "0.9.0"
   resolved "https://github.com/10k-swap/10k_swap-sdk.git#2e992c2af39520ca6dabedfbc23508632b864f69"
@@ -1950,6 +1954,11 @@ json5@^2.2.1:
   version "0.9.0"
   resolved "https://github.com/hxfjsw/10k_swap-sdk.git#66b63aa26eed887959a082a77772f92e1af7788f"
 >>>>>>> main
+=======
+"l0k_swap-sdk@https://github.com/10k-swap/10k_swap-sdk.git#main":
+  version "0.9.0"
+  resolved "https://github.com/10k-swap/10k_swap-sdk.git#2e992c2af39520ca6dabedfbc23508632b864f69"
+>>>>>>> c3509864888d6349351b1ab36d85073704d3b727
   dependencies:
     big.js "^6.2.1"
     decimal.js-light "^2.5.1"
