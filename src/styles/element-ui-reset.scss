@@ -8,7 +8,7 @@
 }
 
 .l0k-swap-confirm-mint-modal .confirm button {
-  width: 166px;
+  width: 100% !important;
 }
 .l0k-swap-connector .connected .address{
   background-color: #D5532A !important;
@@ -64,11 +64,26 @@
 .l0k-swap-page {
   margin-top: 100px !important;
 }
-
+.l0k-swap-analytics-pairs .pairs .contents .content{
+  border: 1px solid #000 !important;
+  margin-top: -1px !important;
+}
 .l0k-swap-currency-input-panel .inputs input {
   color: #fff;
 }
-
+.l0k-swap-slippage-tolerance-settings-modal .l0k-swap-slippage-tolerance-settings-set .btn{
+  border: 1px solid #D5532A !important;
+}
+.input-wrap{
+  background-color: #111524 !important;
+  border-radius: 5px !important;
+  color: #fff !important;
+  border: 1px solid #D5532A !important;
+}
+.l0k-swap-slippage-tolerance-settings-modal .l0k-swap-slippage-tolerance-settings-set .input-wrap .input{
+  background-color: #111524 !important;
+  color: #fff !important;
+}
 .l0k-swap-button--secondary:disabled {
   background-color: #111524;
   border-radius: 5px;

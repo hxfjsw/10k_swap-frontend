@@ -59,6 +59,7 @@ export default defineComponent({
     }
 
     const onWalletSelect = (wallet: WalletProvider) => {
+      console.log(wallet);
       if (!isInstalled(wallet.id)) {
         const browser = getBrowserName()
         if (browser && wallet.downloads[browser]) {

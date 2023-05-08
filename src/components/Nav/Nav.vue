@@ -22,7 +22,7 @@ export default defineComponent({
       Object.values(navs)[1].map((item: any) => {
         console.log(item.name);
         if (item.name === 'Analytics') {
-          item.name = "DashBoard"
+          item.name = "Dashboard"
         }
 
       })

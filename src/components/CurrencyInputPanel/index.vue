@@ -2,8 +2,7 @@
   <div class="l0k-swap-currency-input-panel" :class="classes">
     <div class="inputs">
       <input type="text" :value="typedValue" @input="onInput" placeholder="0.0" pattern="^[0-9]*[.,]?[0-9]*$" />
-      <TokenSelector v-if="selector" class="token-select" :token="token ?? null" :otherToken="otherToken ?? null"
-        @select="onSelect" />
+      <TokenSelector v-if="selector" class="token-select" :token="token ?? null" :otherToken="otherToken ?? null" @select="onSelect" />
       <div class="token" v-else>
         <template v-if="slots.token">
           <slot name="token"></slot>
@@ -22,7 +21,7 @@
           })
         }}
       </Text>
-      <span class="max" @click="() => onMax && onMax(currencyBalance ?? undefined)">
+      <span class="max" @click="() => onMax && onMax(currencyBalance ?? undefined)" v-if="onMax && currencyBalance">
         {{ t('currency_input_panel.max') }}
       </span>
     </div>
@@ -31,7 +30,6 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Button from '../../components/Button/Button'
 import { Token, TokenAmount } from 'l0k_swap-sdk'
 import TokenSelector from '../TokenSelector/TokenSelector.vue'
 import TokenLogo from '../TokenLogo/TokenLogo'
@@ -62,7 +60,6 @@ export default defineComponent({
     TokenSelector,
     TokenLogo,
     Text,
-    Button
   },
   emits: ['token-select', 'input'],
   setup(props, context) {
@@ -81,7 +78,7 @@ export default defineComponent({
       const nextUserInput = (e.target as HTMLInputElement).value.replace(/,/g, '.') ?? ''
 
       if (!new RegExp(/^[0-9]*[.,]?[0-9]*$/).test(nextUserInput) && nextUserInput !== '') {
-        ; (e.target as HTMLInputElement).value = ''
+        ;(e.target as HTMLInputElement).value = ''
         typedValue.value = ''
         return
       }
@@ -160,7 +157,6 @@ export default defineComponent({
     align-items: center;
     justify-content: flex-end;
     margin-top: 8px;
-
     .max {
       display: flex;
       align-items: center;
@@ -168,11 +164,11 @@ export default defineComponent({
       width: 35px;
       height: 18px;
       margin-left: 8px;
-      font-size: $font-size-mini;
-      border: 1px solid #D5532A;
-      background-color: #1d2237;
-      color: #D5532A;
       border-radius: 5px;
+      background: #1d2237;
+      border: 1px solid #D5532A;
+      font-size: $font-size-mini;
+      color: #D5532A;
       cursor: pointer;
     }
   }
@@ -184,7 +180,6 @@ export default defineComponent({
       input {
         width: 60%;
         font-size: 22px;
-
         @include mobile {
           width: 40%;
         }
