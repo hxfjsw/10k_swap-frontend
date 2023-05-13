@@ -25,7 +25,7 @@
     "dayjs": "^1.11.5",
     "echarts": "^5.4.0",
     "element-plus": "^2.2.18",
-    "l0k_swap-sdk": "https://github.com/10k-swap/10k_swap-sdk.git#main",
+    "l0k_swap-sdk": "https://github.com/hxfjsw/10k_swap-sdk.git#main",
     "lodash": "^4.17.21",
     "nanoid": "^4.0.0",
     "numeral": "^2.0.6",
