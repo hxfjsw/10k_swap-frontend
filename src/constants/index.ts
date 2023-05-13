@@ -23,11 +23,11 @@ export const CHAIN_LABELS: { [chainId in ChainId]: string } = {
 }
 
 export const SERVER_URLS: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: 'https://api.10kswap.com',
-  [ChainId.TESTNET]: 'http://139.180.213.23:3001',
+  [ChainId.MAINNET]: 'https://api.starkex.org',
+  [ChainId.TESTNET]: 'https://api.starkex.org',
 }
 
-export const SupporteChainId = ChainId.TESTNET
+export const SupporteChainId = ChainId.MAINNET
 
 export const DEFAULT_TXN_DISMISS_MS = 3000
 

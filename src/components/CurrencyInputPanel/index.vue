@@ -164,10 +164,11 @@ export default defineComponent({
       width: 35px;
       height: 18px;
       margin-left: 8px;
-      border-radius: 9px;
-      background: $color-primary;
+      border-radius: 5px;
+      background: #1d2237;
+      border: 1px solid #D5532A;
       font-size: $font-size-mini;
-      color: $color-white;
+      color: #D5532A;
       cursor: pointer;
     }
   }

@@ -8,33 +8,36 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import { computed, defineComponent, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { SupporteChainId } from '../../constants'
 import navs from './navs'
-
 export default defineComponent({
   setup() {
     onMounted(() => {
       console.log(navs);
       console.log(Object.values(navs)[0]);
-      Object.values(navs)[0].splice(2, 1)
-      Object.values(navs)[0].push({
+      // Object.values(navs)[1].splice(2, 1)
+      Object.values(navs)[1].map((item: any) => {
+        console.log(item.name);
+        if (item.name === 'Analytics') {
+          item.name = "Dashboard"
+        }
+
+      })
+      Object.values(navs)[1].push({
         path: 'https://starkgate.starknet.io/', name: 'Bridge'
       })
     })
-    const handleChange = nav => {
+    const handleChange = (nav: any) => {
       console.log(nav) // 此处 TS 将抛出异常
       if (nav.path.indexOf("https") !== -1) {
-        window.open(nav.path,"_blank");
+        window.open(nav.path, "_blank");
       }
-
     }
     const route = useRoute()
-
     const currentNavs = computed(() => navs[SupporteChainId])
-
     return {
       navs: currentNavs,
       route,

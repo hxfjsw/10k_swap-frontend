@@ -3,25 +3,29 @@
     <div class="charts">
       <div class="chart-wrapper">
         <Text>
-          {{ t('analytics.liquidity') }}
-        </Text>
-        <div class="last">
-          <Text bold :size="'large'">{{ lastLiquidity?.[0] }} </Text>
-          <Text class="change" v-if="lastLiquidity?.[1]" :color="lastLiquidity?.[1] && lastLiquidity?.[1] > 0 ? 'primary' : 'red'" :size="'mini'">
-            {{ `${lastLiquidity[1] > 0 ? '+ ' + lastLiquidity[1].toFixed(2) : lastLiquidity[1].toFixed(2)}` }} %
-          </Text>
-        </div>
-        <div class="chart" id="l0k-swap-liquidity-chart"></div>
-      </div>
-      <div class="chart-wrapper">
-        <Text>
-          {{ t('analytics.volume') }}
+          <!-- {{ t('analytics.volume') }} -->
+          {{ t('analytics.liquidity') }} 
         </Text>
         <div class="last">
           <Text bold :size="'large'">{{ lastVolume?.[0] }} </Text>
         </div>
         <div class="chart" id="l0k-swap-volume-chart"></div>
       </div>
+      <div class="chart-wrapper">
+        <Text>
+          <!-- {{ t('analytics.liquidity') }} -->
+          {{ t('analytics.volume') }}
+        </Text>
+        <div class="last">
+          <Text bold :size="'large'">{{ lastLiquidity?.[0] }} </Text>
+          <Text class="change" v-if="lastLiquidity?.[1]"
+            :color="lastLiquidity?.[1] && lastLiquidity?.[1] > 0 ? 'primary' : 'red'" :size="'mini'">
+            {{ `${lastLiquidity[1] > 0 ? '+ ' + lastLiquidity[1].toFixed(2) : lastLiquidity[1].toFixed(2)}` }} %
+          </Text>
+        </div>
+        <div class="chart" id="l0k-swap-liquidity-chart"></div>
+      </div>
+
     </div>
     <Pairs />
     <Transactions />
@@ -137,6 +141,7 @@ export default defineComponent({
   background: $color-white;
   margin: 28px auto;
   padding: 20px;
+
   @media screen and (max-width: 1040px) {
     width: calc(100% - 24px);
     margin: 8px 12px;
@@ -153,26 +158,33 @@ export default defineComponent({
       width: 100%;
       padding: 16px;
       box-sizing: border-box;
+
       &:first-child {
         margin-right: 16px;
       }
+
       .last {
         display: flex;
+
         .change {
           margin-top: 14px;
           margin-left: 8px;
         }
       }
+
       .chart {
         width: 100%;
         height: 196px;
       }
     }
+
     @include mobile {
       flex-direction: column;
       justify-content: center;
+
       .chart-wrapper {
         padding: 0;
+
         &:first-child {
           margin-right: 0;
           margin-bottom: 32px;
@@ -183,19 +195,21 @@ export default defineComponent({
 
   .el-pagination {
     justify-content: flex-end;
+
     .el-pager li.is-active {
       background: $color-nav-blue;
       color: $color-white;
       border-radius: 8px;
     }
   }
+
   .el-date-editor {
     width: 348px;
     border-radius: 20px;
+
     @include mobile {
       width: 100%;
       box-sizing: border-box;
     }
   }
-}
-</style>
+}</style>

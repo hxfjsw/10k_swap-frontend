@@ -9,7 +9,9 @@
       </div>
       <div class="card">
         <Text :size="'mini'" :color="'description-text'">
-          <span v-html="t('connecting_modal.tips')"></span>
+          <!-- <span v-html="t('connecting_modal.tips')"></span> -->
+          By connecting a wallet，you agree to StarkEx’Terms of sevice and acknowledge that you have understood the risk of
+          crypto investment.
         </Text>
       </div>
     </div>

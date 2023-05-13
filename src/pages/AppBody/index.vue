@@ -1,10 +1,13 @@
 <template>
   <div class="l0k-swap-app-body">
+    <img src="./stark.png" alt="" class="stark">
     <Placard />
     <MHeader />
     <Popups />
     <slot></slot>
-    <div class="socials" v-if="showSocials"><Socials /></div>
+    <div class="socials" v-if="showSocials">
+      <Socials />
+    </div>
     <div class="l0k-swap-app-body-bg" :class="{ root: isRoot }"></div>
   </div>
   <Modals />
@@ -51,6 +54,15 @@ export default defineComponent({
   min-width: 375px;
   overflow-y: auto;
   overflow-x: hidden;
+
+  .stark {
+    position: absolute;
+    width: 147px;
+    height: 57px;
+    top: 15px;
+    left: 44px;
+  }
+
   .l0k-swap-app-body-bg {
     position: fixed;
     bottom: 0;
@@ -68,14 +80,17 @@ export default defineComponent({
     //   background-position: center;
     // }
   }
+
   .socials {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 80px;
+
     @media screen and (max-height: 600px) {
       display: none;
     }
+
     @include mobile {
       display: block;
     }

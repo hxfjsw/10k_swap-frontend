@@ -9,14 +9,24 @@
           {{ t('pool.title') }}
         </Text>
         <div class="tabs">
-          <Button class="pools" :size="'small'" :type="'secondary'" :disabled="currentNav === 'pools'" @click="currentNav = 'pools'">
+          <Button class="pools" :size="'small'" :type="'secondary'" style="background-color: #111524;
+    border-radius: 5px;
+    color: #D5532A;
+    border: 1px solid #D5532A;" :disabled="currentNav === 'pools'" @click="currentNav = 'pools'">
             {{ t('pool.pools') }}
           </Button>
-          <Button class="my-pools" :size="'small'" :type="'secondary'" :disabled="currentNav === 'my-pools'" @click="currentNav = 'my-pools'">
+          <Button class="my-pools" :size="'small'" style="background-color: #111524;
+    border-radius: 5px;
+    color: #D5532A;
+    border: 1px solid #D5532A;" :type="'secondary'" :disabled="currentNav === 'my-pools'"
+            @click="currentNav = 'my-pools'">
             {{ t('pool.my_pools') }}
           </Button>
         </div>
-        <Button :size="'small'" :type="'primary'" @click="onNewPosition">
+        <Button :size="'small'" :type="'primary'" @click="onNewPosition" style="background-color: #111524;
+    border-radius: 5px;
+    color: #D5532A;
+    border: 1px solid #D5532A;">
           {{ isMobile ? '+' : t('pool.new_position') }}
         </Button>
       </div>

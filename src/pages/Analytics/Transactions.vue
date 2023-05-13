@@ -1,6 +1,6 @@
 <template>
   <div class="l0k-swap-analytics-transactions">
-    <div class="header">
+    <!-- <div class="header">
       <Text class="title">{{ t('analytics.transactions') }}</Text>
       <div class="date-picker">
         <el-date-picker
@@ -71,7 +71,7 @@
       :current-page="currentPage"
       layout="prev, pager, next"
       @update:current-page="onPageChange"
-    />
+    /> -->
   </div>
 </template>
 <script lang="ts">
