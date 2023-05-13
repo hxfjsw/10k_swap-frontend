@@ -3,7 +3,7 @@ import { ChainId } from 'l0k_swap-sdk'
 export const ROUTER_ADDRESSES: {
   [chainId in ChainId]: string
 } = {
-  [ChainId.MAINNET]: '0x07a6f98c03379b9513ca84cca1373ff452a7462a3b61598f0af5bb27ad7f76d1',
+  [ChainId.MAINNET]: '0x02db369f4fdd98815f0566c0d0ec8f4de09c3500739699e9652e0b1d67974c57',
   [ChainId.TESTNET]: '0x027d32f6c2b45c6d9fad20c7e07068061fb593e5d934058cca30bf41839b9306',
 }
 
