@@ -54,7 +54,7 @@ export default defineComponent({
   min-width: 375px;
   overflow-y: auto;
   overflow-x: hidden;
-
+  background-color: #000;
   .stark {
     position: absolute;
     width: 147px;
