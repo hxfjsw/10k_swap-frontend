@@ -3,8 +3,8 @@
     <div class="charts">
       <div class="chart-wrapper">
         <Text>
-          <!-- {{ t('analytics.volume') }} -->
-          {{ t('analytics.liquidity') }} 
+           {{ t('analytics.volume') }}
+<!--          {{ t('analytics.liquidity') }} -->
         </Text>
         <div class="last">
           <Text bold :size="'large'">{{ lastVolume?.[0] }} </Text>
@@ -13,8 +13,8 @@
       </div>
       <div class="chart-wrapper">
         <Text>
-          <!-- {{ t('analytics.liquidity') }} -->
-          {{ t('analytics.volume') }}
+           {{ t('analytics.liquidity') }}
+<!--          {{ t('analytics.volume') }}-->
         </Text>
         <div class="last">
           <Text bold :size="'large'">{{ lastLiquidity?.[0] }} </Text>
