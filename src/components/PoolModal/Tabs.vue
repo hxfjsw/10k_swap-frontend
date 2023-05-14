@@ -8,6 +8,7 @@
       :type="item.value === current ? 'primary' : 'text'"
       :size="'small'"
       @click="onChange(item.value)"
+      style="border: 2px solid #D5532A;background-color: #121523;"
     >
       {{ item.label }}
     </Button>

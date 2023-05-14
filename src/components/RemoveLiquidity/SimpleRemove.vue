@@ -163,7 +163,7 @@ export default defineComponent({
         align-items: center;
         width: 33px;
         height: 18px;
-        background: $color-primary;
+        background: #D5532A;//$color-primary;
         border-radius: 50px;
         font-size: $font-size-mini;
         color: $color-white;
