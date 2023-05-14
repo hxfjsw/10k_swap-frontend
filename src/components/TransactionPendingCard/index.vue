@@ -4,7 +4,7 @@
       <PendingIcon class="svg" />
     </div>
     <div class="content">
-      <Text :size="'small'" :color="'orange'">
+      <Text :size="'small'" :color="'white'">
         {{ t('pending', { n: pendingTransactionNumber }) }}
       </Text>
     </div>
@@ -56,7 +56,7 @@ export default defineComponent({
   width: 120px;
   transform: translateY(100%);
   z-index: 1;
-  background: $color-white;
+  background: #D5532A;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
   border-radius: 12px;
   cursor: pointer;
@@ -65,7 +65,7 @@ export default defineComponent({
     height: 36px;
     right: 0;
     transform: translateX(20px);
-    background: rgba($color-white, $alpha: 0.8);
+    background: rgba(#D5532A, $alpha: 0.8);
   }
   .icon {
     display: flex;
