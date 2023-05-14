@@ -4,7 +4,7 @@
 
 .l0k-swap-app-nav-wrap .l0k-swap-app-nav-active {
   color: #D5532A !important;
-  ;
+;
 }
 
 .l0k-swap-confirm-mint-modal .confirm button {
@@ -62,7 +62,51 @@
 .l0kswap-wrong-network {
   background-color: #1d2237 !important;
 }
+.pair-wrapper{
+  background-color: #1d2237 !important;
+}
+.l0k-swap-text--g-blue{
+  color: #D5532A !important;
+}
+.l0k-swap-svg--g-blue{
+  fill: #D5532A !important;
+}
+.simple-remove .remove-amount{
+  background-color: #1d2237 !important;
+}
+.simple-remove .amounts{
+  background-color: #1d2237 !important;
+}
+.pair-wrapper .position-wrapper .position{
+  background-color: #1d2237 !important;
+}
+.l0k-swap-remove-liquidity .position{
+  background-color: #1d2237 !important;
+}
+.simple-remove .remove-amount .ranges span{
+  border: 1px solid #D5532A !important;
+  background-color: #1d2237 !important;
+  color: #D5532A !important;
+  border-radius: 5px !important;
+}
 
+.l0k-swap-pair-modal-tabs .l0k-swap-pair-modal-tab{
+  margin-left: 20px;
+  background-color: #111524 !important;
+  color: #D5532A !important;
+}
+.l0k-swap-svg--g-primary{
+  fill: #D5532A;
+}
+.l0k-swap-confirm-burn-modal .card{
+  background-color: #1d2237 !important;
+}
+.detailed-remove .remove-amount{
+  background-color: #1d2237 !important;
+}
+.l0k-swap-remove-liquidity .btns-wrapper .btns::after{
+  display: none;
+}
 .l0k-swap-text--g-normal {
   // background-color: #111524 !important;
 }
@@ -139,6 +183,7 @@
 }
 
 .l0k-swap-pair-modal-tabs {
+  background-color: #111524 !important;
   border-radius: 5px !important;
 }
 
@@ -248,29 +293,4 @@
 .my-pools-wrapper {
   background: #111524 !important;
   color: #fff !important;
-}
-
-.pair-wrapper {
-  background: #1e2235 !important;
-  color: #fff !important;
-}
-
-.position{
-  background: #1e2235 !important;
-}
-
-.remove-amount{
-  background: #1e2235 !important;
-}
-
-.amounts{
-    background: #1e2235 !important;
-}
-
-.l0k-swap-pair-modal-tabs{
-  background: #1e2235 !important;
-}
-
-.l0k-swap-confirm-burn-modal .card{
-  background: #1e2235 !important;
 }
