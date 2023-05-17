@@ -67,7 +67,7 @@ export default defineComponent({
     DoubleLogo,
   },
   setup() {
-    const dates = ref<[Date, Date]>([new Date(2022, 8, 18), new Date()])
+    const dates = ref<[Date, Date]>([new Date(2023, 4, 10), new Date()])
     const currentPage = ref(1)
 
     const {
