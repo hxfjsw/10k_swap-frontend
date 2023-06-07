@@ -71,6 +71,8 @@ export function useDerivedSwapInfo() {
   const typedValue = computed(() => swapState.value.typedValue)
   const debouncedTypedValue = useDebounce(typedValue, 150)
 
+  //console.log("inputCurrencyId",inputCurrencyId);
+
   const inputCurrency = useToken(inputCurrencyId)
   const outputCurrency = useToken(outputCurrencyId)
   const to = computed(() => (swapState.value.recipient !== null ? swapState.value.recipient : account.value ?? null))

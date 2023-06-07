@@ -1,6 +1,7 @@
 <template>
   <Page class="l0k-swap-swap-wrapper" :title="t('swap.title')">
     <template v-slot:head-right>
+      <AddIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />
       <SettingIcon class="setting" width="17px" @click="onSetting" />
     </template>
     <div class="l0k-swap-swap-content">
@@ -45,10 +46,12 @@
   <WaittingModal :show="swapState.attemptingTxn" :desc="summary" @dismiss="swapState.attemptingTxn = false" />
   <RejectedModal :show="showRejectedModal" @dismiss="onReset" />
   <ScuccessModal :show="!!swapState.txHash" :tx="swapState.txHash" @dismiss="onReset" />
+  <AddTokenModal :show="swapState.showAddTokenModal" @dismiss="swapState.showAddTokenModal=false"
+                 @confirm="confirmAddToken" />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, ComputedRef, defineComponent, provide, reactive, ref, toRaw } from "vue";
 import { useI18n } from "vue-i18n";
 import Text from "../../components/Text/Text.vue";
 import Button from "../../components/Button/Button";
@@ -60,7 +63,8 @@ import ConfirmModal from "../../components/swap/ConfirmModal.vue";
 import WaittingModal from "../../components/transaction/WaittingModal.vue";
 import RejectedModal from "../../components/transaction/RejectedModal.vue";
 import ScuccessModal from "../../components/transaction/ScuccessModal.vue";
-import { SettingIcon, SwitchIcon, LoadingIcon } from "../../components/Svg";
+import AddTokenModal from "../../components/transaction/AddTokenModal.vue";
+import { SettingIcon, SwitchIcon, LoadingIcon, AddIcon } from "../../components/Svg";
 import { Token, Trade, JSBI, TokenAmount } from "l0k_swap-sdk";
 import { useModalStore, useSlippageToleranceSettingsStore } from "../../state";
 import { useDerivedSwapInfo, useSwapActionHandlers } from "../../state/swap/hooks";
@@ -71,13 +75,20 @@ import { useStarknet } from "../../starknet-vue/providers/starknet";
 import { useUserSwapSlippageTolerance } from "../../state/slippageToleranceSettings/hooks";
 import useSwapSummary from "../../hooks/useSwapSummary";
 import { useOpenWalletModal } from "../../state/modal/hooks";
-import { getDeductGasMaxAmount } from "../../utils";
+import { getDeductGasMaxAmount, parseBN2String } from "../../utils";
+import { addToken } from "../../constants/tokens";
+import { useTokenContract } from "../../hooks/Contract";
+import { useStarknetCall } from "../../starknet-vue/hooks/call";
+import { useToken } from "../../hooks/Tokens";
+import { Contract } from "starknet/dist/contract/default";
+import { Provider } from "starknet";
 
 export default defineComponent({
   components: {
     Text,
     Button,
     Page,
+    AddIcon,
     SettingIcon,
     CurrencyInputPanel,
     SwitchIcon,
@@ -87,7 +98,8 @@ export default defineComponent({
     ConfirmModal,
     WaittingModal,
     RejectedModal,
-    ScuccessModal
+    ScuccessModal,
+    AddTokenModal
   },
   setup() {
     const { t } = useI18n();
@@ -125,13 +137,342 @@ export default defineComponent({
     const loadingTrade = computed(() => v2Trade.value === null);
     const showRejectedModal = computed(() => !!swapState.swapErrorMessage && swapState.swapErrorMessage.includes("User abort"));
 
+    const confirmAddToken = async (address: string) => {
+      console.log(`Input value is: ${address}`);
+
+       const defaultProvider = new Provider({ network: 'mainnet-alpha' })
+
+      // const address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
+      const abi = [
+        {
+          "members": [
+            {
+              "name": "low",
+              "offset": 0,
+              "type": "felt"
+            },
+            {
+              "name": "high",
+              "offset": 1,
+              "type": "felt"
+            }
+          ],
+          "name": "Uint256",
+          "size": 2,
+          "type": "struct"
+        },
+        {
+          "data": [
+            {
+              "name": "from_",
+              "type": "felt"
+            },
+            {
+              "name": "to",
+              "type": "felt"
+            },
+            {
+              "name": "value",
+              "type": "Uint256"
+            }
+          ],
+          "keys": [],
+          "name": "Transfer",
+          "type": "event"
+        },
+        {
+          "data": [
+            {
+              "name": "owner",
+              "type": "felt"
+            },
+            {
+              "name": "spender",
+              "type": "felt"
+            },
+            {
+              "name": "value",
+              "type": "Uint256"
+            }
+          ],
+          "keys": [],
+          "name": "Approval",
+          "type": "event"
+        },
+        {
+          "data": [
+            {
+              "name": "previousOwner",
+              "type": "felt"
+            },
+            {
+              "name": "newOwner",
+              "type": "felt"
+            }
+          ],
+          "keys": [],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        {
+          "inputs": [
+            {
+              "name": "name",
+              "type": "felt"
+            },
+            {
+              "name": "symbol",
+              "type": "felt"
+            }
+          ],
+          "name": "constructor",
+          "outputs": [],
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "name": "name",
+          "outputs": [
+            {
+              "name": "name",
+              "type": "felt"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "symbol",
+          "outputs": [
+            {
+              "name": "symbol",
+              "type": "felt"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "totalSupply",
+          "outputs": [
+            {
+              "name": "totalSupply",
+              "type": "Uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "decimals",
+          "outputs": [
+            {
+              "name": "decimals",
+              "type": "felt"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "account",
+              "type": "felt"
+            }
+          ],
+          "name": "balanceOf",
+          "outputs": [
+            {
+              "name": "balance",
+              "type": "Uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "owner",
+              "type": "felt"
+            },
+            {
+              "name": "spender",
+              "type": "felt"
+            }
+          ],
+          "name": "allowance",
+          "outputs": [
+            {
+              "name": "remaining",
+              "type": "Uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "recipient",
+              "type": "felt"
+            },
+            {
+              "name": "amount",
+              "type": "Uint256"
+            }
+          ],
+          "name": "transfer",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "felt"
+            }
+          ],
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "sender",
+              "type": "felt"
+            },
+            {
+              "name": "recipient",
+              "type": "felt"
+            },
+            {
+              "name": "amount",
+              "type": "Uint256"
+            }
+          ],
+          "name": "transferFrom",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "felt"
+            }
+          ],
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "spender",
+              "type": "felt"
+            },
+            {
+              "name": "amount",
+              "type": "Uint256"
+            }
+          ],
+          "name": "approve",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "felt"
+            }
+          ],
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "spender",
+              "type": "felt"
+            },
+            {
+              "name": "added_value",
+              "type": "Uint256"
+            }
+          ],
+          "name": "increaseAllowance",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "felt"
+            }
+          ],
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "spender",
+              "type": "felt"
+            },
+            {
+              "name": "subtracted_value",
+              "type": "Uint256"
+            }
+          ],
+          "name": "decreaseAllowance",
+          "outputs": [
+            {
+              "name": "success",
+              "type": "felt"
+            }
+          ],
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "newOwner",
+              "type": "felt"
+            }
+          ],
+          "name": "transferOwnership",
+          "outputs": [],
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "renounceOwnership",
+          "outputs": [],
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "name": "to",
+              "type": "felt"
+            },
+            {
+              "name": "amount",
+              "type": "Uint256"
+            }
+          ],
+          "name": "mint",
+          "outputs": [],
+          "type": "function"
+        }
+      ];
+      const contract = new Contract(abi, address, defaultProvider);
+      const name_result = await contract.call("name", []);
+      const name = parseBN2String(name_result[0]);
+      const symbol_result = await contract.call("symbol", []);
+      const symbol = parseBN2String(symbol_result[0]);
+      const decimals_result = await contract.call("decimals", []);
+      const decimals = toRaw(decimals_result[0]).toNumber();
+      addToken(address, decimals, symbol, name);
+      swapState.showAddTokenModal = false;
+      // 将该组件内部需要进行的逻辑处理写在这里
+    };
+
     const tradeToConfirm = ref<Trade>();
     const swapState = reactive<{
+      showAddTokenModal: boolean
       showConfirm: boolean
       attemptingTxn: boolean
       swapErrorMessage: string | undefined
       txHash: string | undefined
     }>({
+      showAddTokenModal: false,
       showConfirm: false,
       attemptingTxn: false,
       swapErrorMessage: undefined,
@@ -151,6 +492,9 @@ export default defineComponent({
     const onSetting = () => {
       modalStore.toggleSlippageToleranceSettingsModal(true);
       slippageToleranceSettingsStore.updateCurrentSet("swap");
+    };
+    const onAddToken = async () => {
+      swapState.showAddTokenModal = true;
     };
     const onInputSelect = (inputCurrency: Token) => {
       onCurrencySelection(Field.INPUT, inputCurrency);
@@ -230,6 +574,7 @@ export default defineComponent({
       onSetting,
       onInputSelect,
       openWalletModal,
+      onAddToken,
       onSwitch,
       onOutputSelect,
       onSwapClick,
@@ -237,7 +582,8 @@ export default defineComponent({
       onMax,
       handleTypeInput,
       handleTypeOutput,
-      handleSwap
+      handleSwap,
+      confirmAddToken
     };
   }
 });

@@ -4,4 +4,4 @@ export const StarknetStateSymbol = Symbol('StarknetState')
 
 export const StarknetMethodsSymbol = Symbol('StarknetMethods')
 
-export const defaultProvider = new Provider({ network: 'goerli-alpha' })
+export const defaultProvider = new Provider({ network: 'mainnet-alpha' })
