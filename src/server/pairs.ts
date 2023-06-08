@@ -38,9 +38,12 @@ export async function getAllPairs(chainId: ChainId) {
     if (res.data.errCode === ERR_OK) {
       const data = res.data.data
 
-      return data
+      console.log("data",data)
+
+      let res1 =  data
         .filter((item) => {
-          return !!(getToken(chainId, item.token0.address) && getToken(chainId, item.token1.address))
+          const filter =  !!(getToken(chainId, item.token0.address) && getToken(chainId, item.token1.address));
+          return filter;
         })
         .map((item) => {
           const { reserve0, reserve1, totalSupply } = item
@@ -56,7 +59,50 @@ export async function getAllPairs(chainId: ChainId) {
             totalSupply: new TokenAmount(pair.liquidityToken, totalSupply),
           }
         })
+
+      let res2 =  data
+        .filter((item) => {
+          const filter =  !!(getToken(chainId, item.token0.address) && getToken(chainId, item.token1.address));
+          return !filter;
+        })
+        .map((item) => {
+          console.log("item",item)
+          const { reserve0, reserve1, totalSupply } = item
+          let token0;
+          let token1;
+          try {
+             token0 = getToken(chainId, item.token0.address) as Token
+             token1 = getToken(chainId, item.token1.address) as Token
+          }catch (e){
+            console.log(e);
+          }
+
+          if(token0===undefined ){
+            token0 = new Token(chainId, item.token0.address, item.token0.decimals, item.token0.symbol, item.token0.name);
+          }
+
+          if(token1===undefined ){
+            token1 = new Token(chainId, item.token1.address, item.token1.decimals, item.token1.symbol, item.token1.name);
+          }
+
+          console.log("token0",token0);
+          console.log("token1",token1);
+
+
+          const pair = new Pair(new TokenAmount(token0, reserve0), new TokenAmount(token1, reserve1))
+
+          return {
+            ...item,
+            pair,
+            totalSupply: new TokenAmount(pair.liquidityToken, totalSupply),
+          }
+        })
+
+      return res1.concat(res2);
+      // return res1;
+
     }
+
 
     throw new Error('fetch pairs fail')
   } catch (error: any) {

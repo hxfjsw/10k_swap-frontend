@@ -48,6 +48,16 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 
 export default tokens;
 
+export function existToken(address:String):boolean{
+  let exist:boolean = false;
+  tokens[ChainId.MAINNET].forEach(token => {
+    if(token.address === address){
+      exist = true;
+    }
+  });
+  return exist;
+}
+
 export function addToken(address: string, decimals: number, symbol: string, name: string) {
   console.log("addToken", address, decimals, symbol, name);
   tokens[ChainId.MAINNET].push(

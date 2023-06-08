@@ -1,5 +1,5 @@
 import { defineComponent, toRefs, onMounted, onBeforeUnmount, watch, provide, readonly, reactive, toRaw } from 'vue'
-import { Status, TransactionStatus } from 'starknet'
+import { Provider, Status, TransactionStatus } from "starknet";
 import { useStarknet } from '../starknet/hooks'
 import { DEFAULT_INTERVAL, StarknetTransactionMethodsSymbol, StarknetTransactionStateSymbol } from './const'
 import { Transaction, TransactionSubmitted } from './model'
@@ -15,8 +15,14 @@ function isFail(status: Status | TransactionStatus) {
   return ['REJECTED'].includes(status)
 }
 
-function shouldRefreshTransaction(transaction: Transaction, now: number): boolean {
+async function shouldRefreshTransaction(transaction: Transaction, now: number): boolean {
   // try to get transaction data as soon as possible
+  console.log("shouldRefreshTransaction", transaction);
+
+  const defaultProvider = new Provider({ network: 'mainnet-alpha' })
+  const tx =await defaultProvider.getTransaction(transaction.transactionHash);
+  console.log(tx);
+  transaction.status = tx.status;
   if (transaction.status === 'TRANSACTION_RECEIVED') {
     return true
   }

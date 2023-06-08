@@ -76,7 +76,7 @@ import { useUserSwapSlippageTolerance } from "../../state/slippageToleranceSetti
 import useSwapSummary from "../../hooks/useSwapSummary";
 import { useOpenWalletModal } from "../../state/modal/hooks";
 import { getDeductGasMaxAmount, parseBN2String } from "../../utils";
-import { addToken } from "../../constants/tokens";
+import { addToken, existToken } from "../../constants/tokens";
 import { useTokenContract } from "../../hooks/Contract";
 import { useStarknetCall } from "../../starknet-vue/hooks/call";
 import { useToken } from "../../hooks/Tokens";
@@ -459,7 +459,9 @@ export default defineComponent({
       const symbol = parseBN2String(symbol_result[0]);
       const decimals_result = await contract.call("decimals", []);
       const decimals = toRaw(decimals_result[0]).toNumber();
-      addToken(address, decimals, symbol, name);
+      if(!existToken(address)) {
+        addToken(address, decimals, symbol, name);
+      }
       swapState.showAddTokenModal = false;
       // 将该组件内部需要进行的逻辑处理写在这里
     };
