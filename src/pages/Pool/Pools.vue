@@ -67,7 +67,19 @@ export default defineComponent({
     const poolModalStore = usePoolModalStore()
     const isMobile = useIsMobile()
 
-    const sortedPairs = computed(() => cloneDeep(pairs.value ?? []).sort((a, b) => b.liquidity - a.liquidity))
+    const sortedPairs = computed(() =>
+      {
+       let a = cloneDeep(pairs.value ?? []).sort((a, b) => b.liquidity - a.liquidity)
+       // console.log(a);
+       for (let i = 0; i < a.length; i++) {
+         if(a[i].liquidity < 0.01){
+            a.splice(i,1)
+            i--
+         }
+       }
+        return a;
+      }
+    )
 
     const onGet = (pool: Pool) => {
       poolModalStore.addLiquidity(pool.pair)

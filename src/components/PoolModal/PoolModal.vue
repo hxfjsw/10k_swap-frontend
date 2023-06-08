@@ -7,9 +7,10 @@
         </template>
         <Tabs :tabs="tabs" :current="currentNav" @change="onChange" />
         <template v-slot:right>
-          <AddIcon class="l0k-swap-pair-modal-icon" @click="onAddToken"  />
+          <div>
+          <QueryIcon class="l0k-swap-pair-modal-icon" @click="onAddToken" style="margin-right: 10px" />
           <SettingIcon class="l0k-swap-pair-modal-icon" @click="onSetting" />
-
+          </div>
         </template>
       </ModalHeader>
     </template>
@@ -34,7 +35,7 @@ import ModalHeader from '../Modal/ModalHeader.vue'
 import Tabs from './Tabs.vue'
 import AddLiquidity from '../AddLiquidity/AddLiquidity.vue'
 import RemoveLiquidity from '../RemoveLiquidity/RemoveLiquidity.vue'
-import { BackIcon, SettingIcon,AddIcon } from '../Svg'
+import { BackIcon, SettingIcon,AddIcon,QueryIcon } from '../Svg'
 import { useModalStore, useSlippageToleranceSettingsStore, usePoolModalStore, useMintStore } from '../../state'
 import { Actions } from '../../state/poolModal'
 import { Pair } from 'l0k_swap-sdk'
@@ -52,6 +53,7 @@ export default defineComponent({
     BackIcon,
     SettingIcon,
     AddIcon,
+    QueryIcon,
     Tabs,
     AddLiquidity,
     RemoveLiquidity,
@@ -430,7 +432,7 @@ export default defineComponent({
       if(!existToken(address)) {
         addToken(address, decimals, symbol, name);
       }
-      swapState.showAddTokenModal = false;
+      // swapState.showAddTokenModal = false;
       // 将该组件内部需要进行的逻辑处理写在这里
     };
 

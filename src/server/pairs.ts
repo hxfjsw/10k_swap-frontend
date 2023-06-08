@@ -72,9 +72,14 @@ export async function getAllPairs(chainId: ChainId) {
           let token1;
           try {
              token0 = getToken(chainId, item.token0.address) as Token
-             token1 = getToken(chainId, item.token1.address) as Token
           }catch (e){
-            console.log(e);
+            console.error(e);
+          }
+
+          try {
+            token0 = getToken(chainId, item.token0.address) as Token
+          }catch (e){
+            console.error(e);
           }
 
           if(token0===undefined ){

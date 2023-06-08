@@ -49,6 +49,8 @@ export function usePairs(dates: Ref<[Date, Date]>, page: Ref<number>) {
 
   watch([dates, page], () => _getPairs())
 
+  console.log(pairs);
+
   return pairs
 }
 

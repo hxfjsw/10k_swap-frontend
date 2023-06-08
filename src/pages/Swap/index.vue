@@ -1,7 +1,7 @@
 <template>
   <Page class="l0k-swap-swap-wrapper" :title="t('swap.title')">
     <template v-slot:head-right>
-      <AddIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />
+      <QueryIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />
       <SettingIcon class="setting" width="17px" @click="onSetting" />
     </template>
     <div class="l0k-swap-swap-content">
@@ -64,7 +64,7 @@ import WaittingModal from "../../components/transaction/WaittingModal.vue";
 import RejectedModal from "../../components/transaction/RejectedModal.vue";
 import ScuccessModal from "../../components/transaction/ScuccessModal.vue";
 import AddTokenModal from "../../components/transaction/AddTokenModal.vue";
-import { SettingIcon, SwitchIcon, LoadingIcon, AddIcon } from "../../components/Svg";
+import { SettingIcon, SwitchIcon, LoadingIcon, AddIcon ,QueryIcon} from "../../components/Svg";
 import { Token, Trade, JSBI, TokenAmount } from "l0k_swap-sdk";
 import { useModalStore, useSlippageToleranceSettingsStore } from "../../state";
 import { useDerivedSwapInfo, useSwapActionHandlers } from "../../state/swap/hooks";
@@ -89,6 +89,7 @@ export default defineComponent({
     Button,
     Page,
     AddIcon,
+    QueryIcon,
     SettingIcon,
     CurrencyInputPanel,
     SwitchIcon,
@@ -462,7 +463,7 @@ export default defineComponent({
       if(!existToken(address)) {
         addToken(address, decimals, symbol, name);
       }
-      swapState.showAddTokenModal = false;
+      // swapState.showAddTokenModal = false;
       // 将该组件内部需要进行的逻辑处理写在这里
     };
 
