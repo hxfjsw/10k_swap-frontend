@@ -8,8 +8,11 @@
         <Tabs :tabs="tabs" :current="currentNav" @change="onChange" />
         <template v-slot:right>
           <div>
-          <QueryIcon class="l0k-swap-pair-modal-icon" @click="onAddToken" style="margin-right: 10px" />
-          <SettingIcon class="l0k-swap-pair-modal-icon" @click="onSetting" />
+            <a href="javascript:;">
+              <img src="./query.png" style="width: 22px;height: 22px;margin-right: 10px" @click="onAddToken" />
+            </a>
+            <!--            <QueryIcon class="l0k-swap-pair-modal-icon" @click="onAddToken" style="margin-right: 10px" />-->
+            <SettingIcon class="l0k-swap-pair-modal-icon" @click="onSetting" />
           </div>
         </template>
       </ModalHeader>
@@ -29,17 +32,17 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, reactive, toRaw, watch } from "vue";
-import { useI18n } from 'vue-i18n'
-import Modal from '../Modal/Modal.vue'
-import ModalHeader from '../Modal/ModalHeader.vue'
-import Tabs from './Tabs.vue'
-import AddLiquidity from '../AddLiquidity/AddLiquidity.vue'
-import RemoveLiquidity from '../RemoveLiquidity/RemoveLiquidity.vue'
-import { BackIcon, SettingIcon,AddIcon,QueryIcon } from '../Svg'
-import { useModalStore, useSlippageToleranceSettingsStore, usePoolModalStore, useMintStore } from '../../state'
-import { Actions } from '../../state/poolModal'
-import { Pair } from 'l0k_swap-sdk'
-import useIsMobile from '../../hooks/useIsMobile'
+import { useI18n } from "vue-i18n";
+import Modal from "../Modal/Modal.vue";
+import ModalHeader from "../Modal/ModalHeader.vue";
+import Tabs from "./Tabs.vue";
+import AddLiquidity from "../AddLiquidity/AddLiquidity.vue";
+import RemoveLiquidity from "../RemoveLiquidity/RemoveLiquidity.vue";
+import { BackIcon, SettingIcon, AddIcon, QueryIcon } from "../Svg";
+import { useModalStore, useSlippageToleranceSettingsStore, usePoolModalStore, useMintStore } from "../../state";
+import { Actions } from "../../state/poolModal";
+import { Pair } from "l0k_swap-sdk";
+import useIsMobile from "../../hooks/useIsMobile";
 import AddTokenModal from "../../components/transaction/AddTokenModal.vue";
 import { Provider } from "starknet";
 import { Contract } from "starknet/dist/contract/default";
@@ -60,47 +63,47 @@ export default defineComponent({
     AddTokenModal
   },
   setup() {
-    const { t } = useI18n()
-    const modalStore = useModalStore()
-    const isMobile = useIsMobile()
-    const poolModalStore = usePoolModalStore()
-    const mintStore = useMintStore()
-    const slippageToleranceSettingsStore = useSlippageToleranceSettingsStore()
+    const { t } = useI18n();
+    const modalStore = useModalStore();
+    const isMobile = useIsMobile();
+    const poolModalStore = usePoolModalStore();
+    const mintStore = useMintStore();
+    const slippageToleranceSettingsStore = useSlippageToleranceSettingsStore();
 
-    const addLiquidityPair = computed(() => poolModalStore.addLiquidityPair)
-    const removeLiquidityPair: ComputedRef<Pair | undefined> = computed(() => poolModalStore.removeLiquidityPair as Pair)
+    const addLiquidityPair = computed(() => poolModalStore.addLiquidityPair);
+    const removeLiquidityPair: ComputedRef<Pair | undefined> = computed(() => poolModalStore.removeLiquidityPair as Pair);
 
     watch([addLiquidityPair], () => {
       if (addLiquidityPair.value) {
         mintStore.selectToken({
           tokenA: addLiquidityPair.value?.token0,
-          tokenB: addLiquidityPair.value?.token1,
-        })
+          tokenB: addLiquidityPair.value?.token1
+        });
       }
-    })
+    });
 
     const showModal = computed({
       get: () => poolModalStore.show,
       set(newValue) {
-        poolModalStore.togglePoolModal(newValue)
-      },
-    })
+        poolModalStore.togglePoolModal(newValue);
+      }
+    });
 
-    const tabs = computed(() => poolModalStore.tabs)
-    const currentNav = computed(() => poolModalStore.currentNav)
+    const tabs = computed(() => poolModalStore.tabs);
+    const currentNav = computed(() => poolModalStore.currentNav);
 
     const onSetting = () => {
-      modalStore.toggleSlippageToleranceSettingsModal(true)
-      slippageToleranceSettingsStore.updateCurrentSet('liquidity')
-    }
+      modalStore.toggleSlippageToleranceSettingsModal(true);
+      slippageToleranceSettingsStore.updateCurrentSet("liquidity");
+    };
     const onChange = (tab: Actions) => {
-      poolModalStore.updateNav(tab)
-    }
+      poolModalStore.updateNav(tab);
+    };
 
     const swapState = reactive<{
       showAddTokenModal: boolean
     }>({
-      showAddTokenModal: false,
+      showAddTokenModal: false
     });
 
     const onAddToken = async () => {
@@ -110,7 +113,7 @@ export default defineComponent({
     const confirmAddToken = async (address: string) => {
       console.log(`Input value is: ${address}`);
 
-      const defaultProvider = new Provider({ network: 'mainnet-alpha' })
+      const defaultProvider = new Provider({ network: "mainnet-alpha" });
 
       // const address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
       const abi = [
@@ -429,7 +432,7 @@ export default defineComponent({
       const symbol = parseBN2String(symbol_result[0]);
       const decimals_result = await contract.call("decimals", []);
       const decimals = toRaw(decimals_result[0]).toNumber();
-      if(!existToken(address)) {
+      if (!existToken(address)) {
         addToken(address, decimals, symbol, name);
       }
       // swapState.showAddTokenModal = false;
@@ -450,10 +453,10 @@ export default defineComponent({
 
       onSetting,
       onChange,
-      t,
-    }
-  },
-})
+      t
+    };
+  }
+});
 </script>
 
 <style lang="scss" scoped>

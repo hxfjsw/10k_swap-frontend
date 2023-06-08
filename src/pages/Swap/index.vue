@@ -1,7 +1,10 @@
 <template>
   <Page class="l0k-swap-swap-wrapper" :title="t('swap.title')">
     <template v-slot:head-right>
-      <QueryIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />
+<!--      <QueryIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />-->
+      <a href="javascript:;">
+        <img src="./query.png" style="width: 17px;height: 17px;margin-right: 10px" @click="onAddToken" />
+      </a>
       <SettingIcon class="setting" width="17px" @click="onSetting" />
     </template>
     <div class="l0k-swap-swap-content">
