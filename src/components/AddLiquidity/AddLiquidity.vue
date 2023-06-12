@@ -249,7 +249,17 @@ export default defineComponent({
       }
     }
 
+
+
+    function changeToken(token:Token) {
+      // alert("123")
+      mintStore.selectToken({ tokenA: token })
+
+
+    }
+
     return {
+      changeToken,
       tokenA,
       tokenB,
       Field,

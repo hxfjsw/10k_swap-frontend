@@ -19,7 +19,7 @@
     </template>
     <div class="l0k-swap-pair-modal">
       <div v-if="currentNav === Actions.MINT">
-        <AddLiquidity />
+        <AddLiquidity ref="childComponentRef" />
       </div>
       <div v-if="currentNav === Actions.BURN">
         <RemoveLiquidity :pair="removeLiquidityPair ?? undefined" />
@@ -27,11 +27,11 @@
     </div>
   </Modal>
   <AddTokenModal :show="swapState.showAddTokenModal" @dismiss="swapState.showAddTokenModal=false"
-                 @confirm="confirmAddToken" />
+                 @confirm="confirmAddToken"  @select_token="onSelectToken" />
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, reactive, toRaw, watch } from "vue";
+import { computed, ComputedRef, defineComponent, reactive, toRaw, watch,ref } from "vue";
 import { useI18n } from "vue-i18n";
 import Modal from "../Modal/Modal.vue";
 import ModalHeader from "../Modal/ModalHeader.vue";
@@ -41,13 +41,14 @@ import RemoveLiquidity from "../RemoveLiquidity/RemoveLiquidity.vue";
 import { BackIcon, SettingIcon, AddIcon, QueryIcon } from "../Svg";
 import { useModalStore, useSlippageToleranceSettingsStore, usePoolModalStore, useMintStore } from "../../state";
 import { Actions } from "../../state/poolModal";
-import { Pair } from "l0k_swap-sdk";
+import { Pair, Token } from "l0k_swap-sdk";
 import useIsMobile from "../../hooks/useIsMobile";
 import AddTokenModal from "../../components/transaction/AddTokenModal.vue";
 import { Provider } from "starknet";
 import { Contract } from "starknet/dist/contract/default";
 import { parseBN2String } from "../../utils";
 import { addToken, existToken } from "../../constants/tokens";
+import { Field } from "../../state/swap/types";
 
 export default defineComponent({
   components: {
@@ -63,6 +64,9 @@ export default defineComponent({
     AddTokenModal
   },
   setup() {
+
+    const childComponentRef = ref(null)
+
     const { t } = useI18n();
     const modalStore = useModalStore();
     const isMobile = useIsMobile();
@@ -439,6 +443,15 @@ export default defineComponent({
       // 将该组件内部需要进行的逻辑处理写在这里
     };
 
+    const onSelectToken = (inputCurrency: Token) => {
+      console.log("onSelectToken", inputCurrency);
+      // AddLiquidity.changeToken();
+      console.log("childComponentRef", childComponentRef.value);
+      childComponentRef.value.changeToken(inputCurrency);
+
+      // onCurrencySelection(Field.INPUT, inputCurrency);
+    };
+
     return {
       showModal,
       tabs,
@@ -448,6 +461,8 @@ export default defineComponent({
       Actions,
       AddTokenModal,
       swapState,
+      childComponentRef,
+      onSelectToken,
       onAddToken,
       confirmAddToken,
 

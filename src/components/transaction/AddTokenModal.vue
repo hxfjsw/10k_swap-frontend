@@ -4,14 +4,22 @@
       <ModalHeader @dismiss="() => (showModal = false)" />
     </template>
     <div class="l0k-swap-transaction-rejected-modal">
-      <div class="l0k-swap-currency-input-panel" style="  border: 1px solid orange;">
+      <div style="width: 100%;margin-bottom: 20px;  margin-top: -10px;">
+        <div style="font-weight: 600;float: left;">
+          Select Token for use
+        </div>
+      </div>
+      <div class="l0k-swap-currency-input-panel addtoken-panel" style="  border: 1px solid #D5532A;">
         <div class="inputs">
-          <input type="text" v-model="inputValue" placeholder="Input contract address"
-                 style="width: 350px;font-size: 14px;" v-on:keyup="handleInput">
+          <img src="./query.png" style="width: 17px;margin-right: 10px" />
+          <input type="text" v-model="inputValue" placeholder="Input contract address" id="add_token_input"
+                 class="add_token_input"
+                 style="width: 350px;font-size: 14px;color: #fe5b00;" v-on:keyup="handleInput">
         </div>
       </div>
       <br />
 
+      <div style=" border: none;  border-top: 1px solid #fe5b00;width: 100%"></div>
       <div class="l0k-swap-select-token--tokens" style="width: 90%">
         <div
           id="tokenlist"
@@ -19,9 +27,13 @@
           v-for="token in tokens.list"
           :key="token.address"
           :title="token.name"
+          @click="onSelect(token, $event)"
         >
           <TokenLogo class="l0k-swap-select-token--token-logo" :token="token" />
-          <Text class="text"> {{ token.symbol }}</Text>
+          <div>
+            <Text class="text" style="font-size: 14px;font-weight:600;"> {{ token.symbol }}</Text>
+            <Text class="text" style="font-size: 8px;  color: #999999;"> {{ token.name }}</Text>
+          </div>
         </div>
       </div>
       <br />
@@ -33,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, toRaw, toRefs, watch  ,nextTick} from "vue";
+import { computed, defineComponent, reactive, ref, toRaw, toRefs, watch, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import Modal from "../Modal/Modal.vue";
 import ModalHeader from "../Modal/ModalHeader.vue";
@@ -402,16 +414,16 @@ export default defineComponent({
 
     };
 
-    const handleInput = async (event:any) => {
+    const handleInput = async (event: any) => {
       const address = event.target.value;
       console.log("输入完成：", address);
       console.log(tokens.list.length);
       await refresh(address);
-      await nextTick()
+      await nextTick();
       tokens.list = tokensList[ChainId.MAINNET];
       console.log(tokens.list.length);
-      await nextTick()
-      inputValue.value=""
+      await nextTick();
+      inputValue.value = "";
 
     };
 
@@ -425,7 +437,13 @@ export default defineComponent({
       }
     });
 
+    const onSelect = (selected: Token, e: Event) => {
+      showModal.value = false;
+      emit("select_token", selected);
+    };
+
     return {
+      onSelect,
       showModal,
       inputValue,
       handleInput,
@@ -453,6 +471,27 @@ export default defineComponent({
     width: 140px;
   }
 }
+
+.addtoken-panel {
+  //background-color: rgb(17, 21, 36);
+  //border-radius: 5px;
+  //color: rgb(213, 83, 42);
+  border: 1px solid #D5532A !important;
+
+  //border: 1px solid transparent !important;
+  border-radius: 1.042vw !important;
+  padding: 0.833vw 1.25vw !important;
+  background: #1d2237 !important;
+}
+
+//#add_token_input::placeholder {
+//  color: #fe5b00;
+//}
+//
+//.add_token_input::placeholder {
+//  color: #fe5b00;
+//}
+
 
 //.l0k-swap-currency-input-panel {
 //  width: 90%;

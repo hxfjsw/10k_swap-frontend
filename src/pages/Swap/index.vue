@@ -1,7 +1,7 @@
 <template>
   <Page class="l0k-swap-swap-wrapper" :title="t('swap.title')">
     <template v-slot:head-right>
-<!--      <QueryIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />-->
+      <!--      <QueryIcon class="setting" width="17px" @click="onAddToken" style="margin-right: 10px" />-->
       <a href="javascript:;">
         <img src="./query.png" style="width: 17px;height: 17px;margin-right: 10px" @click="onAddToken" />
       </a>
@@ -50,7 +50,7 @@
   <RejectedModal :show="showRejectedModal" @dismiss="onReset" />
   <ScuccessModal :show="!!swapState.txHash" :tx="swapState.txHash" @dismiss="onReset" />
   <AddTokenModal :show="swapState.showAddTokenModal" @dismiss="swapState.showAddTokenModal=false"
-                 @confirm="confirmAddToken" />
+                 @confirm="confirmAddToken" @select_token="onSelectToken" />
 </template>
 
 <script lang="ts">
@@ -67,7 +67,7 @@ import WaittingModal from "../../components/transaction/WaittingModal.vue";
 import RejectedModal from "../../components/transaction/RejectedModal.vue";
 import ScuccessModal from "../../components/transaction/ScuccessModal.vue";
 import AddTokenModal from "../../components/transaction/AddTokenModal.vue";
-import { SettingIcon, SwitchIcon, LoadingIcon, AddIcon ,QueryIcon} from "../../components/Svg";
+import { SettingIcon, SwitchIcon, LoadingIcon, AddIcon, QueryIcon } from "../../components/Svg";
 import { Token, Trade, JSBI, TokenAmount } from "l0k_swap-sdk";
 import { useModalStore, useSlippageToleranceSettingsStore } from "../../state";
 import { useDerivedSwapInfo, useSwapActionHandlers } from "../../state/swap/hooks";
@@ -144,7 +144,7 @@ export default defineComponent({
     const confirmAddToken = async (address: string) => {
       console.log(`Input value is: ${address}`);
 
-       const defaultProvider = new Provider({ network: 'mainnet-alpha' })
+      const defaultProvider = new Provider({ network: "mainnet-alpha" });
 
       // const address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
       const abi = [
@@ -463,7 +463,7 @@ export default defineComponent({
       const symbol = parseBN2String(symbol_result[0]);
       const decimals_result = await contract.call("decimals", []);
       const decimals = toRaw(decimals_result[0]).toNumber();
-      if(!existToken(address)) {
+      if (!existToken(address)) {
         addToken(address, decimals, symbol, name);
       }
       // swapState.showAddTokenModal = false;
@@ -557,6 +557,11 @@ export default defineComponent({
       }
     };
 
+    const onSelectToken = (inputCurrency: Token) => {
+      console.log("onSelectToken", inputCurrency);
+      onCurrencySelection(Field.INPUT, inputCurrency);
+    };
+
     return {
       swapState,
       Field,
@@ -575,7 +580,7 @@ export default defineComponent({
       swapCallbackError,
       showRejectedModal,
       tradeToConfirm,
-
+      onSelectToken,
       t,
       onSetting,
       onInputSelect,
