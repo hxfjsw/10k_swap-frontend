@@ -19,7 +19,7 @@ const socials = [
   { link: 'https://twitter.com/starkex_org', icon: TwitterIcon },
   { link: 'https://github.com', icon: GithubIcon },
   { link: 'https://docs.starkex.org/', icon: DocIcon },
-  { link: 'https://discord.gg/bsZYjhZG', icon: DiscordIcon },
+  { link: 'https://discord.gg/5wqregJCjx', icon: DiscordIcon },
   // { link: '#', icon: DocIcon },
 ]
 
