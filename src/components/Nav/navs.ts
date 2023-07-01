@@ -19,6 +19,10 @@ export default {
       path: '/analytics',
       name: i18n.global.t('header.nav.analytics'),
     },
+    {
+      path: '/lp_contest',
+      name:"LP Contest",
+    },
   ],
   [ChainId.MAINNET]: [
     {
@@ -33,5 +37,13 @@ export default {
       path: '/analytics',
       name: i18n.global.t('header.nav.analytics'),
     },
+    // {
+    //   path: '/lp_contest',
+    //   name:"LP Contest",
+    // },
+    // {
+    //   path: '/swap_contest',
+    //   name:"Swap Contest",
+    // },
   ],
 }
