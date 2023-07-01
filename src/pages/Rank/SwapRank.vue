@@ -10,14 +10,12 @@
         <div class="pairs">
           <div class="head">
             <Text class="address" :size="'small'">Address</Text>
-            <Text class="tvlTotal" :size="'small'">LTV</Text>
-            <Text class="score" :size="'small'">Score</Text>
+            <Text class="volumeTotal" :size="'small'">volumeTotal</Text>
           </div>
           <div class="contents">
             <div class="content" v-for="item in pairs?.tvls" :key="item.id">
               <Text class="address" :size="'small'">{{ item.account_address }}</Text>
-              <Text class="tvlTotal" :size="'small'">{{ item.tvlTotal }}</Text>
-              <Text class="score" :size="'small'">{{ item.score }}</Text>
+              <Text class="volumeTotal" :size="'small'">{{ item.volumeTotal }}</Text>
             </div>
           </div>
         </div>
@@ -29,7 +27,7 @@
 <script>
 
 import Text from "../../components/Text/Text.vue";
-import {  getTopTVLAccounts } from "../../server/analytics";
+import {  getTopVolumeAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
 import { onMounted, ref } from "vue";
 
@@ -46,7 +44,7 @@ export default {
 
     const getLtv = async () => {
       if (chainId.value) {
-        pairs.value = await getTopTVLAccounts(chainId.value)
+        pairs.value = await getTopVolumeAccounts(chainId.value)
 
         console.log(pairs.value)
       }
@@ -184,7 +182,7 @@ export default {
         padding: 0 10px;
       }
       .address{
-        width: 500px;
+        width: 700px;
         padding: 0 10px;
       }
       .tvlTotal{

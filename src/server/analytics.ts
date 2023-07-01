@@ -98,3 +98,17 @@ export async function getTopTVLAccounts(chainId: ChainId) {
     throw new Error(error)
   }
 }
+
+export async function getTopVolumeAccounts(chainId: ChainId) {
+  try {
+    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/top_volume_accounts`, {
+    })
+    if (res.data.errCode === ERR_OK) {
+      const data = res.data.data
+      return data
+    }
+    throw new Error('fetch pairs fail')
+  } catch (error: any) {
+    throw new Error(error)
+  }
+}
