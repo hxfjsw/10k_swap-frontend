@@ -9,56 +9,63 @@
 
         <div class="pairs">
           <div class="head">
+            <Text class="rank" :size="'small'">Rank</Text>
             <Text class="address" :size="'small'">Address</Text>
             <Text class="volumeTotal" :size="'small'">volumeTotal</Text>
           </div>
           <div class="contents">
-            <div class="content" v-for="item in pairs?.tvls" :key="item.id">
+            <div class="content" v-for="(item,i) in pairs?.volumes" :key="item.id">
+              <Text class="rank" :size="'small'">{{ i + 1 }}</Text>
               <Text class="address" :size="'small'">{{ item.account_address }}</Text>
               <Text class="volumeTotal" :size="'small'">{{ item.volumeTotal }}</Text>
             </div>
           </div>
         </div>
+
+        <div class="loading" v-if="!pairs">
+          <LoadingIcon />
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import { LoadingIcon } from "../../components/Svg";
 import Text from "../../components/Text/Text.vue";
-import {  getTopVolumeAccounts } from "../../server/analytics";
+import { getTopVolumeAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
 import { onMounted, ref } from "vue";
 
 export default {
   name: "LpRank",
-  components: { Text },
+  components: { Text, LoadingIcon },
   setup() {
 
     const pairs = ref();
 
     const {
-      state: { chainId },
-    } = useStarknet()
+      state: { chainId }
+    } = useStarknet();
 
     const getLtv = async () => {
       if (chainId.value) {
-        pairs.value = await getTopVolumeAccounts(chainId.value)
+        pairs.value = await getTopVolumeAccounts(chainId.value);
 
-        console.log(pairs.value)
+        console.log(pairs.value);
       }
-    }
+    };
 
-    onMounted(() => getLtv())
+    onMounted(() => getLtv());
 
 
     return {
       getLtv,
       pairs
-    }
-  },
-}
+    };
+  }
+};
 </script>
 
 <style lang="scss">
@@ -148,28 +155,35 @@ export default {
   padding: 16px;
   margin-top: 16px;
   background: $color-white;
+
   .header {
     display: flex;
     align-items: center;
+
     .title {
       width: 100px;
     }
+
     .date-picker {
       width: 368px;
     }
   }
+
   .pairs {
     margin-top: 12px;
     overflow: auto;
     width: 100%;
+
     .head,
     .contents {
       display: flex;
       width: 1008px;
+
       .name {
         width: 170px;
         padding: 0 10px;
       }
+
       .liquidity,
       .volume_24h,
       .volume_7d,
@@ -181,23 +195,34 @@ export default {
         flex: 1;
         padding: 0 10px;
       }
-      .address{
+
+      .address {
         width: 700px;
         padding: 0 10px;
       }
-      .tvlTotal{
+
+      .tvlTotal {
         width: 200px;
         padding: 0 10px;
       }
+
+
+      .rank {
+        width: 50px;
+        padding: 0 10px;
+      }
     }
+
     .head {
       height: 32px;
       background: $color-bg-secondary;
       border-radius: 8px 0px 0px 8px;
+
       .name {
         display: flex;
         align-items: center;
       }
+
       .name,
       .liquidity,
       .volume_24h,
@@ -207,19 +232,24 @@ export default {
         font-weight: 500;
       }
     }
+
     .contents {
       flex-direction: column;
+
       .content {
         display: flex;
         align-items: center;
         height: 40px;
+
         .name {
           display: flex;
           align-items: center;
+
           .no {
             margin-right: 5px;
             width: 22px;
           }
+
           .symbol {
             margin-left: 12px;
           }
@@ -233,6 +263,7 @@ export default {
     .header {
       align-items: flex-start;
       flex-direction: column;
+
       .date-picker {
         width: 100%;
         box-sizing: border-box;

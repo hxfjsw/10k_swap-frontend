@@ -1,70 +1,122 @@
 <template>
   <div>
+    <Modal v-model="showModal" title="Your rank is" :top="160">
+      <div class="l0k-swap-account-modal-card">
+        {{ rank }}
+      </div>
+    </Modal>
     <h1>
       LP Contest
     </h1>
 
-      <div class="l0k-swap-analytics">
-        <div class="l0k-swap-analytics-pairs">
+    <div class="l0k-swap-analytics">
+      <!--        <div>-->
+      <!--          <Button>Swap Contest</Button>-->
+      <!--        </div>-->
+      <div class="l0k-swap-analytics-pairs">
+
+        <div>
+          <input type="text" placeholder="0x" class="account_input" v-model="account_address" />
+          <Button @click="onClickCheckAccount">Check Account</Button>
+        </div>
 
         <div class="pairs">
           <div class="head">
+            <Text class="rank" :size="'small'">Rank</Text>
             <Text class="address" :size="'small'">Address</Text>
-            <Text class="tvlTotal" :size="'small'">LTV</Text>
+            <Text class="tvlTotal" :size="'small'">TVL</Text>
             <Text class="score" :size="'small'">Score</Text>
           </div>
           <div class="contents">
-            <div class="content" v-for="item in pairs?.tvls" :key="item.id">
+            <div class="content" v-for="(item,i) in pairs?.tvls" :key="item.id" :id="item.account_address">
+              <Text class="rank" :size="'small'">{{ i + 1 }}</Text>
               <Text class="address" :size="'small'">{{ item.account_address }}</Text>
               <Text class="tvlTotal" :size="'small'">{{ item.tvlTotal }}</Text>
               <Text class="score" :size="'small'">{{ item.score }}</Text>
             </div>
           </div>
-          </div>
+        </div>
+
+        <div class="loading" v-if="!pairs">
+          <LoadingIcon />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { LoadingIcon } from "../../components/Svg";
 
 import Text from "../../components/Text/Text.vue";
-import {  getTopTVLAccounts } from "../../server/analytics";
+import { getRankTVLAccounts, getTopTVLAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import Button from "../../components/Button/Button";
+import Modal from "../../components/Modal/Modal.vue";
 
 export default {
   name: "LpRank",
-  components: { Text },
+  components: { Button, Text, LoadingIcon, Modal },
   setup() {
 
     const pairs = ref();
 
     const {
-      state: { chainId },
-    } = useStarknet()
+      state: { chainId }
+    } = useStarknet();
 
     const getLtv = async () => {
       if (chainId.value) {
-        pairs.value = await getTopTVLAccounts(chainId.value)
+        pairs.value = await getTopTVLAccounts(chainId.value);
 
-        console.log(pairs.value)
+        console.log(pairs.value);
       }
-    }
+    };
 
-    onMounted(() => getLtv())
+    onMounted(() => getLtv());
 
+    const onClickCheckAccount = async () => {
+      let rank_res = await getRankTVLAccounts(chainId.value, account_address.value);
+      rank.value = rank_res.rank;
+      showModal.value = true;
+    };
+
+    // const showModal = computed({
+    //   get: () => store.showAccountModal,
+    //   set(newValue) {
+    //     store.toggleAccountModal(newValue)
+    //   },
+    // })
+
+    const showModal = ref(false);
+    const account_address = ref("");
+    const rank = ref(0);
 
     return {
       getLtv,
-      pairs
-    }
-  },
-}
+      pairs,
+      showModal,
+      onClickCheckAccount,
+      account_address,
+      rank
+    };
+  }
+};
 </script>
 
 <style lang="scss">
 @import '../../styles/index.scss';
+
+.account_input {
+  width: 300px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #E5E5E5;
+  padding: 0 20px;
+  box-sizing: border-box;
+  margin-right: 20px;
+}
 
 .l0k-swap-analytics {
   width: 1040px;
@@ -150,28 +202,35 @@ export default {
   padding: 16px;
   margin-top: 16px;
   background: $color-white;
+
   .header {
     display: flex;
     align-items: center;
+
     .title {
       width: 100px;
     }
+
     .date-picker {
       width: 368px;
     }
   }
+
   .pairs {
     margin-top: 12px;
     overflow: auto;
     width: 100%;
+
     .head,
     .contents {
       display: flex;
       width: 1008px;
+
       .name {
         width: 170px;
         padding: 0 10px;
       }
+
       .liquidity,
       .volume_24h,
       .volume_7d,
@@ -183,23 +242,33 @@ export default {
         flex: 1;
         padding: 0 10px;
       }
-      .address{
+
+      .rank {
+        width: 50px;
+        padding: 0 10px;
+      }
+
+      .address {
         width: 500px;
         padding: 0 10px;
       }
-      .tvlTotal{
+
+      .tvlTotal {
         width: 200px;
         padding: 0 10px;
       }
     }
+
     .head {
       height: 32px;
       background: $color-bg-secondary;
       border-radius: 8px 0px 0px 8px;
+
       .name {
         display: flex;
         align-items: center;
       }
+
       .name,
       .liquidity,
       .volume_24h,
@@ -209,19 +278,24 @@ export default {
         font-weight: 500;
       }
     }
+
     .contents {
       flex-direction: column;
+
       .content {
         display: flex;
         align-items: center;
         height: 40px;
+
         .name {
           display: flex;
           align-items: center;
+
           .no {
             margin-right: 5px;
             width: 22px;
           }
+
           .symbol {
             margin-left: 12px;
           }
@@ -235,6 +309,7 @@ export default {
     .header {
       align-items: flex-start;
       flex-direction: column;
+
       .date-picker {
         width: 100%;
         box-sizing: border-box;
