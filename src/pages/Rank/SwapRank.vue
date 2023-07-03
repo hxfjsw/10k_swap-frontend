@@ -4,31 +4,35 @@
       Swap Contest
     </h1>
 
-    <div style="width: 1040px;margin: 0 auto">
-      <div class="" style="background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: left">
+    <div style="width: 1075px;margin: 0 auto;padding: 0">
+      <div class=""
+           style="margin: 0;background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: left">
         <div>
-          <p style="font-size: 48px;color: orange">Leaderboard</p>
-          <p style="margin-top: 20px;font-size: 20px;color: gray">Exclusive ranking for AVNU traders. Trade, earn points, and
-            win unique rewards.
+          <p style="font-size: 48px;color: #d5532a">Swap Contest</p>
+          <p style="margin-top: 20px;font-size: 20px;color: gray">
+            By participating in the Swap Contest you can gain your score which will be a reference for retroactive
+            rewards.
           </p>
-          <br/>
-          <router-link to="/">Trade Now</router-link>
+          <br /><br />
+          <router-link to="/" class="l0k-swap-button trade_now">Trade Now</router-link>
         </div>
       </div>
-      <div class="" style="background-color: #111524;height: 200px;width: 400px;border-radius:20px;padding:16px;float: right">
-        <div style="color: gray;font-size: 20px">
-          <p style="font-size: 48px;color: orange">StarkEx</p>
+      <div class=""
+           style="background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: right">
 
-          <p>0x138a...917c </p>
-        <p>Rank: 1</p>
-        <p>Score: 100000</p>
-        <p>Volume Total: 100000 USD</p>
+        <p style="font-size: 48px;color: #d5532a">StarkEx</p>
+
+        <div style="margin-top: 20px;color: gray;font-size: 20px" v-if="rank!=null ">
+
+          <p>{{ account.substr(0, 12) + "..." + account.substr(account.length - 10, 10) }} </p>
+          <p>Rank: {{ rank.rank }}</p>
+          <p>Volume Total: {{ rank.info.volumeTotal }} USD</p>
         </div>
       </div>
       <div style="clear: both"></div>
     </div>
 
-    <div class="l0k-swap-analytics">
+    <div class="l0k-swap-analytics" style="margin-top: 10px !important;">
       <div class="l0k-swap-analytics-pairs">
 
         <div class="pairs">
@@ -39,12 +43,21 @@
           </div>
           <div class="contents">
             <div class="content" v-for="(item,i) in pairs?.volumes" :key="item.id">
-              <Text class="rank" :size="'small'">{{ i + 1 }}</Text>
+              <Text class="rank" :size="'small'">{{ ((currentPage - 1) * 25) + i + 1 }}</Text>
               <Text class="address" :size="'small'">{{ item.account_address }}</Text>
               <Text class="volumeTotal" :size="'small'">{{ item.volumeTotal }}</Text>
             </div>
           </div>
         </div>
+
+        <ElPagination
+          small
+          :page-size="25"
+          :total="100"
+          :current-page="currentPage"
+          layout="prev, pager, next"
+          @update:current-page="onPageChange"
+        />
 
         <div class="loading" v-if="!pairs">
           <LoadingIcon />
@@ -58,35 +71,59 @@
 <script>
 import { LoadingIcon } from "../../components/Svg";
 import Text from "../../components/Text/Text.vue";
-import { getTopVolumeAccounts } from "../../server/analytics";
+import { getTopVolumeAccounts, getRankVolumeAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
 import { onMounted, ref } from "vue";
+import { ElPagination } from "element-plus";
 
 export default {
-  name: "LpRank",
-  components: { Text, LoadingIcon },
+  name: "SwapRank",
+  components: { Text, LoadingIcon, ElPagination },
   setup() {
 
     const pairs = ref();
 
     const {
-      state: { chainId }
+      state: { chainId, account }
     } = useStarknet();
 
     const getLtv = async () => {
       if (chainId.value) {
-        pairs.value = await getTopVolumeAccounts(chainId.value);
+        pairs.value = null;
+        const res = await getTopVolumeAccounts(chainId.value, currentPage.value);
 
+        pairs.value = res;
         console.log(pairs.value);
       }
     };
 
-    onMounted(() => getLtv());
+    const myRank = async () => {
+      if (chainId.value) {
+        const rank_res = await getRankVolumeAccounts(chainId.value, account.value);
+        rank.value = rank_res.rank;
+        console.log(rank_res);
+      }
+    };
+    const rank = ref(null);
 
+    onMounted(() => getLtv());
+    onMounted(() => myRank());
+
+    const currentPage = ref(1);
+
+    const onPageChange = (page) => {
+      currentPage.value = page;
+      getLtv();
+    };
 
     return {
       getLtv,
-      pairs
+      myRank,
+      pairs,
+      account,
+      rank,
+      currentPage,
+      onPageChange
     };
   }
 };
@@ -94,6 +131,11 @@ export default {
 
 <style lang="scss">
 @import '../../styles/index.scss';
+
+.trade_now {
+  width: 100px;
+  text-decoration: none; /* 去掉下划线 */
+}
 
 .l0k-swap-analytics {
   width: 1040px;

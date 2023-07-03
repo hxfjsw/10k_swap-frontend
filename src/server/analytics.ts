@@ -99,9 +99,10 @@ export async function getTopTVLAccounts(chainId: ChainId) {
   }
 }
 
-export async function getTopVolumeAccounts(chainId: ChainId) {
+export async function getTopVolumeAccounts(chainId: ChainId,page:number) {
   try {
     const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/top_volume_accounts`, {
+      params: { page },
     })
     if (res.data.errCode === ERR_OK) {
       const data = res.data.data
@@ -112,6 +113,24 @@ export async function getTopVolumeAccounts(chainId: ChainId) {
     throw new Error(error)
   }
 }
+
+export async function getRankVolumeAccounts(chainId: ChainId,account_address:string) {
+  try {
+    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_volume_accounts`, {
+      params: { account_address },
+    })
+    if (res.data.errCode === ERR_OK) {
+      const data = res.data.data
+      return data
+    }
+    throw new Error('fetch pairs fail')
+  } catch (error: any) {
+    throw new Error(error)
+  }
+}
+
+
+
 
 export async function getRankTVLAccounts(chainId: ChainId,account_address:string) {
   try {
