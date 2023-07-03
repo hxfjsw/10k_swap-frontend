@@ -85,9 +85,10 @@ export async function getChartsData(chainId: ChainId) {
 }
 
 
-export async function getTopTVLAccounts(chainId: ChainId) {
+export async function getTopTVLAccounts(chainId: ChainId,page:number) {
   try {
     const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/top_tvl_accounts`, {
+      params: { page },
     })
     if (res.data.errCode === ERR_OK) {
       const data = res.data.data
