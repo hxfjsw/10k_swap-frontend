@@ -184,6 +184,7 @@ export default {
   .el-pagination {
     justify-content: flex-end;
 
+
     .el-pager li.is-active {
       background: $color-nav-blue;
       color: $color-white;

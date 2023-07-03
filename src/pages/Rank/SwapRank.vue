@@ -20,13 +20,20 @@
       <div class=""
            style="background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: right">
 
-        <p style="font-size: 48px;color: #d5532a">StarkEx</p>
+        <div style="font-size: 48px;color: #d5532a">StarkEx
+          <div v-if="rank!=null" style="font-size: 24px; position: relative;float: right">Rank {{ rank.rank }}</div>
+        </div>
 
-        <div style="margin-top: 20px;color: gray;font-size: 20px" v-if="rank!=null ">
+        <div style="margin-top: 20px;color: gray;font-size: 20px;" v-if="rank!=null ">
 
-          <p>{{ account.substr(0, 12) + "..." + account.substr(account.length - 10, 10) }} </p>
-          <p>Rank: {{ rank.rank }}</p>
-          <p>Volume Total: {{ rank.info.volumeTotal }} USD</p>
+
+          <div style="font-size: 38px;margin: auto 0;width: 100%;text-align: center">
+            {{ account.substr(0, 12) + "..." + account.substr(account.length - 10, 10) }}
+          </div>
+          <br/>
+          <div style="color: gray;font-size: 18px">Score:  {{ (Number)(rank.info.volumeTotal).toFixed(2) }}
+<!--          Volume Total: {{ (Number)(rank.info.volumeTotal).toFixed(4) }} USD -->
+          </div>
         </div>
       </div>
       <div style="clear: both"></div>
@@ -99,7 +106,9 @@ export default {
 
     const myRank = async () => {
       if (chainId.value) {
-        const rank_res = await getRankVolumeAccounts(chainId.value, account.value);
+        const rank_res = await getRankVolumeAccounts(chainId.value,
+          // "0x0672e901042958066dddef68c4089c620046222ae019e9ea5c3e5fd7d8456b15");
+        account.value);
         rank.value = rank_res.rank;
         console.log(rank_res);
       }
@@ -197,6 +206,12 @@ export default {
 
   .el-pagination {
     justify-content: flex-end;
+
+    .el-pager li {
+      margin-left: 5px;
+      background-color: #d5532a;
+      color: $color-white;
+    }
 
     .el-pager li.is-active {
       background: $color-nav-blue;
