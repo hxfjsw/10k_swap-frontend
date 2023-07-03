@@ -13,9 +13,10 @@
     <!--    </h1>-->
 
 
+    <div style="margin-top: 10px"></div>
     <div style="width: 1075px;margin: 0 auto;padding: 0">
       <div class=""
-           style="margin: 0;background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: left">
+           style="margin: 0px;background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: left">
         <div>
           <p style="font-size: 48px;color: #d5532a">LP Contest</p>
           <p style="margin-top: 20px;font-size: 20px;color: gray">
@@ -50,10 +51,22 @@
 
     <div class="l0k-swap-analytics" style="margin-top: 10px !important;margin-bottom: 0px !important;">
       <div class="l0k-swap-analytics-pairs nft_images">
-        <div><img src="./nft2.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name1</p></div>
-        <div><img src="./nft3.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name2</p></div>
-        <div><img src="./nft1.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name3</p></div>
-        <div><img src="./nft4.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name4</p></div>
+        <div>
+          <img src="./nft2.png" width="200" />
+          <p style="color: white;width: 100%;text-align: center">Genesis LP1 <br /> （Top 5%）</p>
+        </div>
+        <div>
+          <img src="./nft3.png" width="200" />
+          <p style="color: white;width: 100%;text-align: center">Genesis LP2 <br /> （5%-20%）</p>
+        </div>
+        <div>
+          <img src="./nft1.png" width="200" />
+          <p style="color: white;width: 100%;text-align: center">Genesis LP3 <br /> （20%-50%）</p>
+        </div>
+        <div>
+          <img src="./nft4.png" width="200" />
+          <p style="color: white;width: 100%;text-align: center">Genesis LP4 <br /> （50%-100%）</p>
+        </div>
       </div>
     </div>
 
@@ -121,11 +134,12 @@ export default {
     const pairs = ref();
 
     const {
-      state: { chainId,account }
+      state: { chainId, account }
     } = useStarknet();
 
     const getLtv = async () => {
       if (chainId.value) {
+        pairs.value = null;
         pairs.value = await getTopTVLAccounts(chainId.value, currentPage.value);
 
         console.log(pairs.value);
@@ -135,8 +149,10 @@ export default {
     onMounted(() => getLtv());
 
     const onClickCheckAccount = async () => {
+      rank.value = null;
       let rank_res = await getRankTVLAccounts(chainId.value,
-        "0x0778a36227a2fd4639dffd18b860fe0253509f6e560e67eab463f5ee28856564");
+        // "0x0778a36227a2fd4639dffd18b860fe0253509f6e560e67eab463f5ee28856564");
+        account.value);
       rank.value = rank_res.rank;
 
       // account.value);
@@ -193,7 +209,7 @@ export default {
   gap: 20px;
 }
 
-.nft_images > img {
+.nft_images > div > img {
   display: block;
   margin: 0 auto;
   border-radius: 10px;
