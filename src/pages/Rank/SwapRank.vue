@@ -4,6 +4,30 @@
       Swap Contest
     </h1>
 
+    <div style="width: 1040px;margin: 0 auto">
+      <div class="" style="background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: left">
+        <div>
+          <p style="font-size: 48px;color: orange">Leaderboard</p>
+          <p style="margin-top: 20px;font-size: 20px;color: gray">Exclusive ranking for AVNU traders. Trade, earn points, and
+            win unique rewards.
+          </p>
+          <br/>
+          <router-link to="/">Trade Now</router-link>
+        </div>
+      </div>
+      <div class="" style="background-color: #111524;height: 200px;width: 400px;border-radius:20px;padding:16px;float: right">
+        <div style="color: gray;font-size: 20px">
+          <p style="font-size: 48px;color: orange">StarkEx</p>
+
+          <p>0x138a...917c </p>
+        <p>Rank: 1</p>
+        <p>Score: 100000</p>
+        <p>Volume Total: 100000 USD</p>
+        </div>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+
     <div class="l0k-swap-analytics">
       <div class="l0k-swap-analytics-pairs">
 
@@ -11,7 +35,7 @@
           <div class="head">
             <Text class="rank" :size="'small'">Rank</Text>
             <Text class="address" :size="'small'">Address</Text>
-            <Text class="volumeTotal" :size="'small'">volumeTotal</Text>
+            <Text class="volumeTotal" :size="'small'">Volume Total</Text>
           </div>
           <div class="contents">
             <div class="content" v-for="(item,i) in pairs?.volumes" :key="item.id">

@@ -2,7 +2,10 @@
   <div>
     <Modal v-model="showModal" title="Your rank is" :top="160">
       <div class="l0k-swap-account-modal-card">
-        {{ rank }}
+        <div> rank: {{ rank.rank }}</div>
+        <div> tvl: {{ rank.info.tvlTotal }}</div>
+        <div> score: {{ rank.info.score }}</div>
+
       </div>
     </Modal>
     <h1>
@@ -78,8 +81,10 @@ export default {
 
     const onClickCheckAccount = async () => {
       let rank_res = await getRankTVLAccounts(chainId.value, account_address.value);
-      rank.value = rank_res.rank;
-      showModal.value = true;
+      if(rank_res.rank!=null) {
+        rank.value = rank_res.rank;
+        showModal.value = true;
+      }
     };
 
     // const showModal = computed({
