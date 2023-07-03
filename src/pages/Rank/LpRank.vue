@@ -40,7 +40,7 @@
             {{ account.substr(0, 12) + "..." + account.substr(account.length - 10, 10) }}
           </div>
           <br />
-          <div style="color: gray;font-size: 18px">Score: {{ (Number)(rank.info.volumeTotal).toFixed(2) }}
+          <div style="color: gray;font-size: 18px">Score: {{ (Number)(rank.info.score).toFixed(2) }}
             <!--          Volume Total: {{ (Number)(rank.info.volumeTotal).toFixed(4) }} USD -->
           </div>
         </div>
@@ -50,10 +50,10 @@
 
     <div class="l0k-swap-analytics" style="margin-top: 10px !important;margin-bottom: 0px !important;">
       <div class="l0k-swap-analytics-pairs nft_images">
-        <img src="./nft1.png" width="200" />
-        <img src="./nft2.png" width="200" />
-        <img src="./nft3.png" width="200" />
-        <img src="./nft4.png" width="200" />
+        <div><img src="./nft2.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name1</p></div>
+        <div><img src="./nft3.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name2</p></div>
+        <div><img src="./nft1.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name3</p></div>
+        <div><img src="./nft4.png" width="200" /> <p style="color: white;width: 100%;text-align: center">name4</p></div>
       </div>
     </div>
 
@@ -121,7 +121,7 @@ export default {
     const pairs = ref();
 
     const {
-      state: { chainId }
+      state: { chainId,account }
     } = useStarknet();
 
     const getLtv = async () => {
@@ -135,11 +135,15 @@ export default {
     onMounted(() => getLtv());
 
     const onClickCheckAccount = async () => {
-      let rank_res = await getRankTVLAccounts(chainId.value, account_address.value);
-      if (rank_res.rank != null) {
-        rank.value = rank_res.rank;
-        showModal.value = true;
-      }
+      let rank_res = await getRankTVLAccounts(chainId.value,
+        "0x0778a36227a2fd4639dffd18b860fe0253509f6e560e67eab463f5ee28856564");
+      rank.value = rank_res.rank;
+
+      // account.value);
+      // if (rank_res.rank != null) {
+      //   rank.value = rank_res.rank;
+      //   showModal.value = true;
+      // }
     };
 
     // const showModal = computed({
@@ -160,6 +164,9 @@ export default {
       getLtv();
     };
 
+    onMounted(() => onClickCheckAccount());
+
+
     return {
       getLtv,
       pairs,
@@ -168,7 +175,8 @@ export default {
       account_address,
       rank,
       currentPage,
-      onPageChange
+      onPageChange,
+      account
     };
   }
 };
