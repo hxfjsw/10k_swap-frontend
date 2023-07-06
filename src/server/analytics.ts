@@ -87,7 +87,7 @@ export async function getChartsData(chainId: ChainId) {
 
 export async function getTopTVLAccounts(chainId: ChainId,page:number) {
   try {
-    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/top_tvl_accounts`, {
+    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/get_snapshots`, {
       params: { page },
     })
     if (res.data.errCode === ERR_OK) {
@@ -116,6 +116,11 @@ export async function getTopVolumeAccounts(chainId: ChainId,page:number) {
 }
 
 export async function getRankVolumeAccounts(chainId: ChainId,account_address:string) {
+
+  if(account_address.length <66){
+    account_address = '0x'+account_address.substring(2).padStart(64,'0');
+  }
+
   try {
     const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_volume_accounts`, {
       params: { account_address },
@@ -134,8 +139,13 @@ export async function getRankVolumeAccounts(chainId: ChainId,account_address:str
 
 
 export async function getRankTVLAccounts(chainId: ChainId,account_address:string) {
+
+  if(account_address.length <66){
+    account_address = '0x'+account_address.substring(2).padStart(64,'0');
+  }
+
   try {
-    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_tvl_accounts`, {
+    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_snapshot_tvl_accounts`, {
       params: { account_address },
     })
     if (res.data.errCode === ERR_OK) {

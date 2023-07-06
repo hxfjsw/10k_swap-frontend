@@ -22,18 +22,23 @@
 
         <div style="font-size: 48px;color: #d5532a">StarkEx
           <div v-if="rank!=null" style="font-size: 24px; position: relative;float: right">Rank {{ rank.rank }}</div>
+          <div v-else-if="account" style="font-size: 24px; position: relative;float: right">Rank 0</div>
         </div>
 
-        <div style="margin-top: 20px;color: gray;font-size: 20px;" v-if="rank!=null ">
+
+        <div style="margin-top: 20px;color: gray;font-size: 20px; ">
 
 
-          <div style="font-size: 38px;margin: auto 0;width: 100%;text-align: center">
-            {{ account.substr(0, 12) + "..." + account.substr(account.length - 10, 10) }}
+          <div style="font-size: 38px;margin: auto 0;width: 100%;text-align: center" v-if="account">
+            {{ fix(account).substr(0, 12) + "..." + account.substr(account.length - 10, 10) }}
           </div>
           <br/>
-          <div style="color: gray;font-size: 18px">Score:  {{ (Number)(rank.info.volumeTotal).toFixed(2) }}
+          <div style="color: gray;font-size: 18px" v-if="rank">Score:  {{ (Number)(rank.info.volumeTotal).toFixed(2) }}
 <!--          Volume Total: {{ (Number)(rank.info.volumeTotal).toFixed(4) }} USD -->
           </div>
+          <div style="color: gray;font-size: 18px" v-else-if="account">
+            Score: 0
+            </div>
         </div>
       </div>
       <div style="clear: both"></div>
@@ -80,7 +85,7 @@ import { LoadingIcon } from "../../components/Svg";
 import Text from "../../components/Text/Text.vue";
 import { getTopVolumeAccounts, getRankVolumeAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { ElPagination } from "element-plus";
 
 export default {
@@ -118,12 +123,25 @@ export default {
     onMounted(() => getLtv());
     onMounted(() => myRank());
 
+
+    watch(account,async ()=>{
+     await myRank();
+    })
+
+
     const currentPage = ref(1);
 
     const onPageChange = (page) => {
       currentPage.value = page;
       getLtv();
     };
+
+    const fix = (account_address)=>{
+      if(account_address.length <66){
+        account_address = '0x'+account_address.substring(2).padStart(64,'0');
+      }
+      return account_address;
+    }
 
     return {
       getLtv,
@@ -132,7 +150,8 @@ export default {
       account,
       rank,
       currentPage,
-      onPageChange
+      onPageChange,
+      fix
     };
   }
 };

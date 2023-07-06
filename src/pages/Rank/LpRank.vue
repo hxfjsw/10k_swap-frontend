@@ -31,18 +31,27 @@
            style="background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: right">
 
         <div style="font-size: 48px;color: #d5532a">StarkEx
-          <div v-if="rank!=null" style="font-size: 24px; position: relative;float: right">Rank {{ rank.rank }}</div>
+          <div style="font-size: 24px; position: relative;float: right" v-if="rank && rank.info">Rank {{ rank.rank }}</div>
+          <div style="font-size: 24px; position: relative;float: right" v-else-if="account">Rank 0</div>
+
         </div>
 
-        <div style="margin-top: 20px;color: gray;font-size: 20px;" v-if="rank!=null ">
-
-
-          <div style="font-size: 38px;margin: auto 0;width: 100%;text-align: center">
-            {{ account.substr(0, 12) + "..." + account.substr(account.length - 10, 10) }}
+        <div style="margin-top: 20px;color: gray;font-size: 20px;" >
+          <div style="font-size: 38px;margin: auto 0;width: 100%;text-align: center" v-if="account">
+            {{ fix(account).substr(0, 12) + "..." + account.substr(account.length - 10, 10) }}
           </div>
           <br />
-          <div style="color: gray;font-size: 18px">Score: {{ (Number)(rank.info.score).toFixed(2) }}
-            <!--          Volume Total: {{ (Number)(rank.info.volumeTotal).toFixed(4) }} USD -->
+          <div style="color: gray;font-size: 18px" v-if="rank!=null && rank.info!=null">
+            Score:   {{   (Number)(rank.info.score).toFixed(2) }}
+          </div>
+          <div style="color: gray;font-size: 18px" v-else-if="account">
+            Score: 0
+          </div>
+          <div style="color: gray;font-size: 18px;margin-top: 10px" v-if="rank!=null && rank.info!=null">
+            Eligible for NFT: Genesis LP {{ rank.nft }}
+          </div>
+          <div style="color: gray;font-size: 18px;margin-top: 10px" v-else-if="account">
+            Eligible for NFT: Not Eligible
           </div>
         </div>
       </div>
@@ -53,19 +62,23 @@
       <div class="l0k-swap-analytics-pairs nft_images">
         <div>
           <img src="./nft2.png" width="200" />
-          <p style="color: white;width: 100%;text-align: center">Genesis LP1 <br /> （Top 5%）</p>
+          <img src="./1.png" style="margin-top: 15px">
+<!--          <p style="color: white;width: 100%;text-align: center">Genesis LP1 <br /> （Top 5%）</p>-->
         </div>
         <div>
           <img src="./nft3.png" width="200" />
-          <p style="color: white;width: 100%;text-align: center">Genesis LP2 <br /> （5%-20%）</p>
+          <img src="./2.png" style="margin-top: 15px">
+          <!--          <p style="color: white;width: 100%;text-align: center">Genesis LP2 <br /> （5%-20%）</p>-->
         </div>
         <div>
           <img src="./nft1.png" width="200" />
-          <p style="color: white;width: 100%;text-align: center">Genesis LP3 <br /> （20%-50%）</p>
+          <img src="./3.png" style="margin-top: 15px">
+          <!--          <p style="color: white;width: 100%;text-align: center">Genesis LP3 <br /> （20%-50%）</p>-->
         </div>
         <div>
           <img src="./nft4.png" width="200" />
-          <p style="color: white;width: 100%;text-align: center">Genesis LP4 <br /> （50%-100%）</p>
+          <img src="./4.png" style="margin-top: 15px">
+          <!--          <p style="color: white;width: 100%;text-align: center">Genesis LP4 <br /> （50%-100%）</p>-->
         </div>
       </div>
     </div>
@@ -121,7 +134,7 @@ import { LoadingIcon } from "../../components/Svg";
 import Text from "../../components/Text/Text.vue";
 import { getRankTVLAccounts, getTopTVLAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal.vue";
 import { ElPagination } from "element-plus";
@@ -146,14 +159,28 @@ export default {
       }
     };
 
+
     onMounted(() => getLtv());
 
-    const onClickCheckAccount = async () => {
+    const onClickCheckAccount = async (account_address) => {
+
       rank.value = null;
       let rank_res = await getRankTVLAccounts(chainId.value,
         // "0x0778a36227a2fd4639dffd18b860fe0253509f6e560e67eab463f5ee28856564");
-        account.value);
+      account_address);
       rank.value = rank_res.rank;
+
+      if (rank.value != null) {
+        if (rank.value.top <= 0.05) {
+          rank.value.nft = 1;
+        } else if (rank.value.top > 0.05 && rank.value.top <= 0.2) {
+          rank.value.nft = 2;
+        } else if (rank.value.top > 0.2 && rank.value.top <= 0.5) {
+          rank.value.nft = 3;
+        } else {
+          rank.value.nft = 4;
+        }
+      }
 
       // account.value);
       // if (rank_res.rank != null) {
@@ -180,8 +207,19 @@ export default {
       getLtv();
     };
 
-    onMounted(() => onClickCheckAccount());
+    watch(account,async()=> {
+      // alert("account change"+account.value)
+     await onClickCheckAccount(account.value);
+    })
 
+    onMounted(() => onClickCheckAccount(account.value));
+
+    const fix = (account_address)=>{
+      if(account_address.length <66){
+        account_address = '0x'+account_address.substring(2).padStart(64,'0');
+      }
+      return account_address;
+    }
 
     return {
       getLtv,
@@ -192,7 +230,8 @@ export default {
       rank,
       currentPage,
       onPageChange,
-      account
+      account,
+      fix
     };
   }
 };
