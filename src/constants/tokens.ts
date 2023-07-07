@@ -64,7 +64,11 @@ export function addToken(address: string, decimals: number, symbol: string, name
     new Token(ChainId.MAINNET, address, decimals, symbol, name)
   );
   //todo 记录到localStorage
-  const existingTokens = JSON.parse(localStorage.getItem("tokens"));
+  const str_token = localStorage.getItem("tokens");
+  if(str_token=== null){
+    return;
+  }
+  const existingTokens = JSON.parse(str_token);
   const newToken = { address, decimals, symbol, name };
   const updatedTokens = existingTokens ?? [];
   updatedTokens.push(newToken);
@@ -75,7 +79,11 @@ export function addToken(address: string, decimals: number, symbol: string, name
 
 //todo 从 localStorage 读取 tokens 添加到 tokens
 export function loadTokens() {
-  const existingTokens = JSON.parse(localStorage.getItem("tokens"));
+  const str_token = localStorage.getItem("tokens");
+  if(str_token==null){
+    return;
+  }
+  const existingTokens = JSON.parse(str_token);
   const updatedTokens = existingTokens ?? [];
   updatedTokens.forEach((token: { address: string; decimals: number; symbol: string; name: string; }) => {
     tokens[ChainId.MAINNET].push(

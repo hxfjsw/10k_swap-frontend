@@ -128,13 +128,13 @@
   </div>
 </template>
 
-<script>
+<script  lang="ts">
 import { LoadingIcon } from "../../components/Svg";
 
 import Text from "../../components/Text/Text.vue";
 import { getRankTVLAccounts, getTopTVLAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, Ref, ref, watch } from "vue";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal.vue";
 import { ElPagination } from "element-plus";
@@ -162,7 +162,10 @@ export default {
 
     onMounted(() => getLtv());
 
-    const onClickCheckAccount = async (account_address) => {
+
+    const rank:Ref<null|any> = ref(null);
+
+    const onClickCheckAccount = async (account_address:string) => {
 
       rank.value = null;
       let rank_res = await getRankTVLAccounts(chainId.value,
@@ -198,23 +201,28 @@ export default {
 
     const showModal = ref(false);
     const account_address = ref("");
-    const rank = ref(null);
 
     const currentPage = ref(1);
 
-    const onPageChange = (page) => {
+    const onPageChange = (page:number) => {
       currentPage.value = page;
       getLtv();
     };
 
     watch(account,async()=> {
       // alert("account change"+account.value)
-     await onClickCheckAccount(account.value);
+      if(account.value) {
+        await onClickCheckAccount(account.value);
+      }
     })
 
-    onMounted(() => onClickCheckAccount(account.value));
+    onMounted(() =>{
+      if(account.value) {
+        onClickCheckAccount(account.value)
+      }
+    });
 
-    const fix = (account_address)=>{
+    const fix = (account_address:string)=>{
       if(account_address.length <66){
         account_address = '0x'+account_address.substring(2).padStart(64,'0');
       }

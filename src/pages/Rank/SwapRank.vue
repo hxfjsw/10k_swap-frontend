@@ -80,12 +80,12 @@
   </div>
 </template>
 
-<script>
+<script  lang="ts">
 import { LoadingIcon } from "../../components/Svg";
 import Text from "../../components/Text/Text.vue";
 import { getTopVolumeAccounts, getRankVolumeAccounts } from "../../server/analytics";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, Ref, ref, watch } from "vue";
 import { ElPagination } from "element-plus";
 
 export default {
@@ -109,8 +109,12 @@ export default {
       }
     };
 
+
+    const rank:Ref<null|any> = ref(null);
+
     const myRank = async () => {
-      if (chainId.value) {
+      if (chainId.value && account.value!==undefined){
+
         const rank_res = await getRankVolumeAccounts(chainId.value,
           // "0x0672e901042958066dddef68c4089c620046222ae019e9ea5c3e5fd7d8456b15");
         account.value);
@@ -118,7 +122,6 @@ export default {
         console.log(rank_res);
       }
     };
-    const rank = ref(null);
 
     onMounted(() => getLtv());
     onMounted(() => myRank());
@@ -131,12 +134,12 @@ export default {
 
     const currentPage = ref(1);
 
-    const onPageChange = (page) => {
+    const onPageChange = (page:number) => {
       currentPage.value = page;
       getLtv();
     };
 
-    const fix = (account_address)=>{
+    const fix = (account_address:string)=>{
       if(account_address.length <66){
         account_address = '0x'+account_address.substring(2).padStart(64,'0');
       }

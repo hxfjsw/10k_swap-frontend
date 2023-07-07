@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, reactive, toRaw, watch,ref } from "vue";
+import { computed, ComputedRef, defineComponent, reactive, toRaw, watch, ref, Ref } from "vue";
 import { useI18n } from "vue-i18n";
 import Modal from "../Modal/Modal.vue";
 import ModalHeader from "../Modal/ModalHeader.vue";
@@ -49,6 +49,7 @@ import { Contract } from "starknet/dist/contract/default";
 import { parseBN2String } from "../../utils";
 import { addToken, existToken } from "../../constants/tokens";
 import { Field } from "../../state/swap/types";
+import { Abi } from "starknet/src/types/index";
 
 export default defineComponent({
   components: {
@@ -65,7 +66,7 @@ export default defineComponent({
   },
   setup() {
 
-    const childComponentRef = ref(null)
+    const childComponentRef:Ref<any> = ref(null)
 
     const { t } = useI18n();
     const modalStore = useModalStore();
@@ -428,7 +429,7 @@ export default defineComponent({
           "outputs": [],
           "type": "function"
         }
-      ];
+      ] as Abi;
       const contract = new Contract(abi, address, defaultProvider);
       const name_result = await contract.call("name", []);
       const name = parseBN2String(name_result[0]);
@@ -447,7 +448,9 @@ export default defineComponent({
       console.log("onSelectToken", inputCurrency);
       // AddLiquidity.changeToken();
       console.log("childComponentRef", childComponentRef.value);
-      childComponentRef.value.changeToken(inputCurrency);
+      if(childComponentRef.value) {
+        childComponentRef.value.changeToken(inputCurrency);
+      }
 
       // onCurrencySelection(Field.INPUT, inputCurrency);
     };

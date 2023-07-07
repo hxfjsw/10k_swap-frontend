@@ -1,6 +1,6 @@
 import { computed, ComputedRef, toRaw } from 'vue'
 import tokens from '../constants/tokens'
-import { Token, ChainId } from 'l0k_swap-sdk'
+import { Token, ChainId as StarknetChainId } from 'l0k_swap-sdk'
 import { useStarknetCall } from '../starknet-vue/hooks/call'
 import { useStarknet } from '../starknet-vue/providers/starknet'
 import { parseBN2String, isEqualsAddress } from '../utils'
@@ -8,7 +8,7 @@ import { useTokenContract } from './Contract'
 
 const tokenCaches = tokens
 
-function getCaches(chainId: ChainId, address: string) {
+function getCaches(chainId: StarknetChainId, address: string) {
   return tokenCaches[chainId].find((item) => isEqualsAddress(address, item.address))
 }
 
@@ -27,11 +27,9 @@ export function useToken(tokenAddress: ComputedRef<string | undefined>): Compute
   const token: ComputedRef<Token | undefined> = computed(() => (address.value && chainId.value ? getCaches(chainId.value, address.value) : undefined))
 
   const contract = computed(() => (token.value ? undefined : tokenContract.value))
-  // console.log("contract", contract)
   const tokenName = useStarknetCall(contract, 'name', [], { watch: false })
   const symbol = useStarknetCall(contract, 'symbol', [], { watch: false })
   const decimals = useStarknetCall(contract, 'decimals', [], { watch: false })
-  // console.log("tokenName", tokenName.state.data)
 
   return computed(() => {
     if (token.value) return token.value

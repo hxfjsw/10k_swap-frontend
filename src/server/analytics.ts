@@ -122,7 +122,7 @@ export async function getRankVolumeAccounts(chainId: ChainId,account_address:str
   }
 
   try {
-    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_volume_accounts`, {
+    const res = await axios.get<IResponse<any>>(`${SERVER_URLS[chainId]}/analytics/rank_volume_accounts`, {
       params: { account_address },
     })
     if (res.data.errCode === ERR_OK) {
@@ -137,6 +137,9 @@ export async function getRankVolumeAccounts(chainId: ChainId,account_address:str
 
 
 
+interface RankTVLAccountsResponse {
+  rank:number
+}
 
 export async function getRankTVLAccounts(chainId: ChainId,account_address:string) {
 
@@ -145,7 +148,7 @@ export async function getRankTVLAccounts(chainId: ChainId,account_address:string
   }
 
   try {
-    const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_snapshot_tvl_accounts`, {
+    const res = await axios.get<IResponse<RankTVLAccountsResponse>>(`${SERVER_URLS[chainId]}/analytics/rank_snapshot_tvl_accounts`, {
       params: { account_address },
     })
     if (res.data.errCode === ERR_OK) {

@@ -103,6 +103,7 @@ export async function getAllPairs(chainId: ChainId) {
           }
         })
 
+      // @ts-ignore
       return res1.concat(res2);
       // return res1;
 
