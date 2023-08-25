@@ -16,7 +16,8 @@ let tokens: ChainTokenList = {
     new Token(ChainId.MAINNET, "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8", 6, "USDC", "USD Coin"),
     new Token(ChainId.MAINNET, "0x00da114221cb83fa859dbdb4c44beeaa0bb37c7537ad5ae66fe5e0efd20e6eb3", 18, "DAI", "Dai Stablecoin"),
     new Token(ChainId.MAINNET, "0x03fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac", 8, "WBTC", "Wrapped BTC"),
-    new Token(ChainId.MAINNET, "0x068f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8", 6, "USDT", "Tether USD")
+    new Token(ChainId.MAINNET, "0x068f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8", 6, "USDT", "Tether USD"),
+    new Token(ChainId.MAINNET,"0x054f20994579087ecae673f3904d7ffd433707ddd6c658743901b1805cc62929",18,"RN","Raum Network")
   ],
   [ChainId.TESTNET]: [
     ethers[ChainId.TESTNET],

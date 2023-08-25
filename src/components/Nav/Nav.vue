@@ -9,7 +9,7 @@
 
     <a class="l0k-swap-app-nav" href="https://starkgate.starknet.io/" target="_blank">Bridge</a>
 
-<!--    <div class="l0k-swap-app-nav" @mouseenter="onMouseEnter()" ref="myButton">Contest</div>-->
+    <div class="l0k-swap-app-nav" @mouseenter="onMouseEnter()" ref="myButton">Contest</div>
 
     <div class="down" v-if="showDropdown" @mouseleave="onMouseLeave()" ref="down" :style="{top: top + 'px', left: left + 'px'}">
       <ul class="down_ul">
@@ -122,7 +122,7 @@ export default defineComponent({
 .down {
   position: absolute;
   width: 120px;
-  border: 1px solid #fff;
+  //border: 1px solid #fff;
   background: #000;
   border-radius: 10px;
   padding: 5px;
