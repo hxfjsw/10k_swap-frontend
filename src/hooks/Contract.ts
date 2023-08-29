@@ -18,6 +18,7 @@ export function useNamingContract() {
     state: { chainId },
   } = useStarknet()
   const address = computed(() => chainId.value && STARKNET_ID_ADDRESSES[chainId.value])
+  // const address ="0x013e13b71de66832b5d22360579a225896c8ddb49631169b16e49c6e6b480288";
 
   return useContract(
     computed(() => naming_abi as Abi),

@@ -32,7 +32,7 @@ export function useDecoded(encoded: BN[]): string {
     }
     decoded += '.'
   }
-  return decoded + 'stark'
+  return decoded + 'stk'
 }
 
 export function useDomainFromAddress(address: Ref<string | undefined>): ComputedRef<string | undefined> {

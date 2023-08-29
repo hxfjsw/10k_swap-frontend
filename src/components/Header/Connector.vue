@@ -16,7 +16,7 @@
       </template>
       <div class="address" :class="{ 'has-id': !!starknetId }" plain @click="store.toggleAccountModal(true)">
         {{ starknetId ? starknetId : shortenAddress(account) }}
-        <ShareIcon v-if="starknetId" class="share" :color="'white'" width="13px" @click="toStarknetId" />
+<!--        <ShareIcon v-if="starknetId" class="share" :color="'white'" width="13px" @click="toStarknetId" />-->
       </div>
     </div>
     <Button type="primary" bold v-else @click="openWalletModal">
