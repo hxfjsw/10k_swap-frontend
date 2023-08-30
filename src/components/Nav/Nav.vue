@@ -7,7 +7,7 @@
       {{ nav.name }}
     </router-link>
 
-    <a class="l0k-swap-app-nav" href="https://starkgate.starknet.io/" target="_blank">Bridge</a>
+    <a class="l0k-swap-app-nav" href="https://starkid.pro/app" target="_blank">StarkID</a>
 
     <div class="l0k-swap-app-nav" @mouseenter="onMouseEnter()" ref="myButton">Contest</div>
 
