@@ -91,7 +91,11 @@ export default defineComponent({
     const token0Balance = useTokenBalances(account, token0)
     const token1Balance = useTokenBalances(account, token1)
 
+    console.log("pair",pair)
+
     const { parsedAmounts, userLiquidity } = useDerivedBurnInfo(pair)
+
+    console.log("parsedAmounts",parsedAmounts)
 
     const formattedAmounts = computed(() => ({
       [Field.LIQUIDITY_PERCENT]:
@@ -102,6 +106,7 @@ export default defineComponent({
       [Field.CURRENCY_B]:
         independentField.value === Field.CURRENCY_B ? typedValue.value : parsedAmounts.value[Field.CURRENCY_B]?.toSignificant(6) ?? '',
     }))
+    console.log("formattedAmounts",formattedAmounts)
     const { onUserInput } = useBurnActionHandlers()
 
     const onMax = (maxInputAmount: TokenAmount | undefined) => {

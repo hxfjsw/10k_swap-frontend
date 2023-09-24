@@ -1,0 +1,129 @@
+@media screen and (max-width: 1400px){
+.index .section1 .text{
+	padding-top: 12%;
+}
+.index .section1 .title{
+	font-size: calc(39/1440*100vw);
+	line-height: 1.5;
+}
+.index .section1 .dec{
+	margin-top: 1%;
+}
+.index .section4 .title,
+.index .section5 .title,
+.index .section2 .wrap > .title{
+	font-size: calc(39/1440*100vw);
+	line-height: 1.5;
+}
+.index .section5 .dec{
+	font-size: calc(19/1440*100vw);
+	line-height: 1.5;
+
+}
+}
+@media screen and (max-width: 1200px){
+	.index .section5 .link1 a img,
+	.index .section5 .link2 a img{
+
+width: 100%;
+
+height: 60px;
+
+object-fit: contain;
+
+}
+	.index .section5 .link1 a,
+	.index .section5 .link2 a{
+		
+float: left;
+		
+width: 23%;
+		
+margin: 1%;
+		
+background: #fff;
+		
+border-radius: 12px;
+	}
+	.index .section2 .list .item{
+		height: 250px;
+	}
+}
+@media screen and (max-width: 992px){
+
+.head{
+	/* padding: 15px 0px; */
+}
+.head .wrap1 .logo a img{
+	height: 45px;
+}
+.head .wrap1 .more{
+	width: 120px;
+	line-height: 30px;
+	margin-top: 7px;
+	font-size: 12px;
+}
+
+.index .section3 .more,
+.index .section1 .more{
+	width: 120px;
+	line-height: 30px;
+	font-size: 12px;
+}
+.index .section1{
+	padding-top: 71vw;
+}
+.pc{
+    display: none;
+}
+.wap{
+    display: block;
+}
+.index .section1 .text{padding-top: 32vw;}
+
+.index .section3 .title,
+	.index .section1 .title,
+	.index .section4 .title,
+.index .section5 .title,
+.index .section2 .wrap > .title{
+	font-size: 18px;
+	line-height:1.6;
+	}
+	.index .section3 .dec,
+	.index .section1 .dec{
+		font-size: 14px;
+		line-height: 1.6;
+	}
+	.index .section3 .dec{
+		margin-top: 10%;
+	}
+	.index .section2 .list .item{
+		width: 100%;
+		margin-right: 0px;
+		margin-bottom: 15px;
+		height: auto;
+		padding: 20px;
+	}
+	.index .section3{
+		padding: 20vw 0;
+	}
+	.index .section4 .title{
+		margin-bottom: 10vw;
+	}
+	.index .section5 .dec{
+		margin-top: 10vw;
+		margin-bottom: 10vw;
+	}
+	.index .section5 .link1 a, .index .section5 .link2 a{
+		width: 48%;
+	}
+	.index .section5 .link1{
+		margin-bottom: 0;
+	}
+	.bottom{
+		padding: 10vw 0;
+	}
+	.bottom a img{
+		height: 25px;
+	}
+}

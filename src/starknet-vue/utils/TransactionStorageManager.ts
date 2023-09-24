@@ -1,4 +1,4 @@
-import { ChainId as StarknetChainId } from 'l0k_swap-sdk'
+import { StarknetChainId } from 'l0k_swap-sdk'
 import { Transaction } from '../providers/transaction/model'
 
 export default class TransactionStorageManager {

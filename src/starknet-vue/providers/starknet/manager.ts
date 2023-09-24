@@ -4,7 +4,7 @@ import { StarknetMethods, StarknetState } from './model'
 import { Connector, InjectedConnector } from '../../connectors'
 import { ConnectorNotFoundError, UserRejectedRequestError, ConnectorNotConnectedError } from '../../errors'
 import ConnectorStorageManager from '../../utils/ConnectorStorageManager'
-import { ChainId as StarknetChainId, isEqualAddress } from 'l0k_swap-sdk'
+import { StarknetChainId, isEqualAddress } from 'l0k_swap-sdk'
 import { chainIdMap, defaultProvider } from './const'
 import { InjectedConnectorOptions } from '../../connectors/injected'
 

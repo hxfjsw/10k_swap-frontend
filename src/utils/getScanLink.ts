@@ -1,4 +1,4 @@
-import {ChainId as StarknetChainId } from 'l0k_swap-sdk'
+import { StarknetChainId } from 'l0k_swap-sdk'
 
 // const SCAN_PREFIXES: { [chainId in StarknetChainId]: string } = {
 //   [StarknetChainId.MAINNET]: 'https://voyager.online',

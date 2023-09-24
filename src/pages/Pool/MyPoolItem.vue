@@ -70,6 +70,9 @@ export default defineComponent({
 
     const liquidityValues = computed(() => {
       const { pair, totalSupply, balance } = data.value
+
+      console.log('MyPoolItem totalSupply', totalSupply)
+
       const { token0, token1 } = pair
 
       return [

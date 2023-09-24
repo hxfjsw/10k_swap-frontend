@@ -1,4 +1,4 @@
-import { ChainId as StarknetChainId } from 'l0k_swap-sdk'
+import { StarknetChainId } from 'l0k_swap-sdk'
 import { ProviderInterface, AccountInterface } from 'starknet4'
 import { Connector } from '../../connectors'
 import { InjectedConnectorOptions } from '../../connectors/injected'

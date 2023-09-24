@@ -17,7 +17,7 @@ import TwitterIcon from './twitter.png'
 
 const socials = [
   { link: 'https://twitter.com/starkex_org', icon: TwitterIcon },
-  { link: 'https://github.com', icon: GithubIcon },
+  { link: 'https://github.com/cantlee/StarkExContracts', icon: GithubIcon },
   { link: 'https://docs.starkex.org/', icon: DocIcon },
   { link: 'https://discord.gg/5wqregJCjx', icon: DiscordIcon },
   // { link: '#', icon: DocIcon },

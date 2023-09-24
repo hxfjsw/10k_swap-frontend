@@ -56,11 +56,11 @@ export function useDerivedBurnInfo(pair: Ref<Pair | undefined | null>): {
     const tokenA = tokens.value[Field.CURRENCY_A]
 
     return pair.value &&
-      totalSupply.value &&
-      userLiquidity.value &&
-      tokenA &&
-      // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-      JSBI.greaterThanOrEqual(totalSupply.value.raw, userLiquidity.value.raw)
+    totalSupply.value &&
+    userLiquidity.value &&
+    tokenA &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalSupply.value.raw, userLiquidity.value.raw)
       ? new TokenAmount(tokenA, pair.value.getLiquidityValue(tokenA, totalSupply.value, userLiquidity.value, false).raw)
       : undefined
   })
@@ -68,11 +68,11 @@ export function useDerivedBurnInfo(pair: Ref<Pair | undefined | null>): {
     const tokenB = tokens.value[Field.CURRENCY_B]
 
     return pair.value &&
-      totalSupply.value &&
-      userLiquidity.value &&
-      tokenB &&
-      // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
-      JSBI.greaterThanOrEqual(totalSupply.value.raw, userLiquidity.value.raw)
+    totalSupply.value &&
+    userLiquidity.value &&
+    tokenB &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalSupply.value.raw, userLiquidity.value.raw)
       ? new TokenAmount(tokenB, pair.value.getLiquidityValue(tokenB, totalSupply.value, userLiquidity.value, false).raw)
       : undefined
   })

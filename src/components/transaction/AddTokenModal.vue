@@ -59,7 +59,7 @@ import { debounce } from "lodash";
 import { Provider } from "starknet";
 import { Contract } from "starknet/dist/contract/default";
 import { parseBN2String } from "../../utils";
-import { ChainId, Token } from "l0k_swap-sdk";
+import {  StarknetChainId, Token } from "l0k_swap-sdk";
 
 export default defineComponent({
   props: {
@@ -85,7 +85,7 @@ export default defineComponent({
     const tokens = reactive<{
       list: Array<Token>;
     }>({
-      list: tokensList[ChainId.MAINNET]
+      list: tokensList[StarknetChainId.MAINNET]
     });
 
 

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../10k_swap-sdk/.idea/10k_swap-sdk.iml" filepath="$PROJECT_DIR$/../10k_swap-sdk/.idea/10k_swap-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/project.iml" filepath="$PROJECT_DIR$/.idea/project.iml" />
     </modules>
   </component>

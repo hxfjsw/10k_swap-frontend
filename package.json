@@ -25,7 +25,7 @@
     "dayjs": "^1.11.5",
     "echarts": "^5.4.0",
     "element-plus": "^2.2.18",
-    "l0k_swap-sdk": "https://github.com/hxfjsw/10k_swap-sdk.git#main",
+    "l0k_swap-sdk": "file:../10k_swap-sdk",
     "lodash": "^4.17.21",
     "nanoid": "^4.0.0",
     "numeral": "^2.0.6",
@@ -37,8 +37,7 @@
     "vue-final-modal": "3.4.4",
     "vue-i18n": "^9.2.0",
     "vue-router": "^4.0.0-0",
-    "vue3-popper": "^1.5.0",
-    "starknetid.js": "^1.5.3"
+    "vue3-popper": "^1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
