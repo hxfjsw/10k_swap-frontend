@@ -33,8 +33,13 @@ import { SupporteChainId } from "../../constants";
 import navs from "./navs";
 
 export default defineComponent({
-  props: {},
+  props: {
+    class: {
+      type: String,
+    },
+  },
   components: {
+    navs
   },
   data: () => {
     return {
@@ -49,7 +54,7 @@ export default defineComponent({
     },
     route() {
       return useRoute();
-    },
+    }
 
   },
   methods: {
@@ -68,7 +73,7 @@ export default defineComponent({
       console.log("onMouseLeave");
       this.showDropdown = false;
     },
-    handleChange() {
+    handleChange(nav: any) {
 
     }
   },
