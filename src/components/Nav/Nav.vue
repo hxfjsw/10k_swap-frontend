@@ -11,7 +11,8 @@
 
     <div class="l0k-swap-app-nav" @mouseenter="onMouseEnter()" ref="myButton">Contest</div>
 
-    <div class="down" v-if="showDropdown" @mouseleave="onMouseLeave()" ref="down" :style="{top: top + 'px', left: left + 'px'}">
+    <div class="down" v-if="showDropdown" @mouseleave="onMouseLeave()" ref="down"
+         :style="{top: top + 'px', left: left + 'px'}">
       <ul class="down_ul">
         <li style="color:orangered">
           <router-link to="/lp_contest">LP Contest</router-link>
@@ -32,69 +33,120 @@ import { SupporteChainId } from "../../constants";
 import navs from "./navs";
 
 export default defineComponent({
-  setup() {
-    onMounted(() => {
-      // console.log(navs);
-      // console.log(Object.values(navs)[0]);
-      // Object.values(navs)[1].splice(2, 1)
-      Object.values(navs)[1].map((item: any) => {
-        console.log(item.name);
-        if (item.name === "Analytics") {
-          item.name = "Dashboard";
-        }
-
-      });
-      // Object.values(navs)[1].push({
-      //   path: 'https://starkgate.starknet.io/', name: 'Bridge'
-      // })
-
-    });
-    const handleChange = (nav: any) => {
-      // console.log(nav) // 此处 TS 将抛出异常
-      // if (nav.path.indexOf("https") !== -1) {
-      // window.open(nav.path, "_blank");
-      // }
+  props: {},
+  components: {
+  },
+  data: () => {
+    return {
+      showDropdown: false,
+      top: 0,
+      left: 0
     };
-    const showDropdown = ref(false);
+  },
+  computed: {
+    navs() {
+      return navs[SupporteChainId];
+    },
+    route() {
+      return useRoute();
+    },
 
-
-    const top=ref(0);
-    const left=ref(0);
-
-    const onMouseEnter = function() {
+  },
+  methods: {
+    onMouseEnter() {
+      const button = this.$refs.myButton as any;
       console.log("onMouseOver");
-      showDropdown.value = true;
-
-      const button = this.$refs.myButton;
-      console.log(button)
+      this.showDropdown = true;
+      // console.log(button)
       const rect = button.getBoundingClientRect();
       console.log(rect.left, rect.top); //
 
-      top.value = rect.top + 35;
-      left.value = rect.left-10;
-
-    };
-
-    const onMouseLeave = () => {
+      this.top = rect.top + 35;
+      this.left = rect.left - 10;
+    },
+    onMouseLeave() {
       console.log("onMouseLeave");
-      showDropdown.value = false;
-    };
+      this.showDropdown = false;
+    },
+    handleChange() {
 
-    const route = useRoute();
-    const currentNavs = computed(() => navs[SupporteChainId]);
+    }
+  },
 
-    return {
-      navs: currentNavs,
-      route,
-      handleChange,
-      onMouseEnter,
-      onMouseLeave,
-      showDropdown,
-      top,
-      left
-    };
+  mounted() {
+    console.log(navs);
+    console.log(Object.values(navs)[0]);
+    Object.values(navs)[1].map((item: any) => {
+      console.log(item.name);
+      if (item.name === "Analytics") {
+        item.name = "Dashboard";
+      }
+    });
   }
 });
+//     onMounted(() => {
+//       // console.log(navs);
+//       // console.log(Object.values(navs)[0]);
+//       // Object.values(navs)[1].splice(2, 1)
+//       Object.values(navs)[1].map((item: any) => {
+//         console.log(item.name);
+//         if (item.name === "Analytics") {
+//           item.name = "Dashboard";
+//         }
+//
+//       });
+//       // Object.values(navs)[1].push({
+//       //   path: 'https://starkgate.starknet.io/', name: 'Bridge'
+//       // })
+//
+//     });
+//     const handleChange = (nav: any) => {
+//       // console.log(nav) // 此处 TS 将抛出异常
+//       // if (nav.path.indexOf("https") !== -1) {
+//       // window.open(nav.path, "_blank");
+//       // }
+//     };
+//     const showDropdown = ref(false);
+//
+//
+//     const top=ref(0);
+//     const left=ref(0);
+//
+//     const button = this.$refs.myButton;
+//
+//     const onMouseEnter = () => {
+//       console.log("onMouseOver");
+//       showDropdown.value = true;
+//
+//       // console.log(button)
+//       // const rect = button.getBoundingClientRect();
+//       // console.log(rect.left, rect.top); //
+//       //
+//       // top.value = rect.top + 35;
+//       // left.value = rect.left-10;
+//
+//     };
+//
+//     const onMouseLeave = () => {
+//       console.log("onMouseLeave");
+//       showDropdown.value = false;
+//     };
+//
+//     const route = useRoute();
+//     const currentNavs = computed(() => navs[SupporteChainId]);
+//
+//     return {
+//       navs: currentNavs,
+//       route,
+//       handleChange,
+//       onMouseEnter,
+//       onMouseLeave,
+//       showDropdown,
+//       top,
+//       left
+//     };
+//   }
+// });
 </script>
 
 <style lang="scss" scoped>

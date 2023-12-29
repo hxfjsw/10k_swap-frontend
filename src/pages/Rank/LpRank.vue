@@ -138,6 +138,7 @@ import { computed, onMounted, Ref, ref, watch } from "vue";
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal.vue";
 import { ElPagination } from "element-plus";
+import { StarknetChainId } from 'l0k_swap-sdk'
 
 export default {
   name: "LpRank",
@@ -166,6 +167,10 @@ export default {
     const rank:Ref<null|any> = ref(null);
 
     const onClickCheckAccount = async (account_address:string) => {
+      if(chainId.value == undefined){
+        console.error("LP Rank chainId.value == undefined")
+        return;
+      }
 
       rank.value = null;
       let rank_res = await getRankTVLAccounts(chainId.value,

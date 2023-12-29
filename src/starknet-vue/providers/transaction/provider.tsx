@@ -1,32 +1,32 @@
 import { defineComponent, toRefs, onMounted, onBeforeUnmount, watch, provide, readonly, reactive, toRaw } from 'vue'
-import { Status, TransactionStatus } from 'starknet4'
 import { useStarknet } from '../starknet/hooks'
 import { DEFAULT_INTERVAL, StarknetTransactionMethodsSymbol, StarknetTransactionStateSymbol } from './const'
-import { Transaction, TransactionSubmitted } from './model'
+import { Transaction, TransactionStatus, TransactionSubmitted } from './model'
 import TransactionStorageManager from '../../utils/TransactionStorageManager'
+import { TransactionFinalityStatus } from 'starknet5'
 
-function isLoading(status: Status | TransactionStatus | undefined) {
+function isLoading(status: TransactionStatus | undefined) {
   if (!status) {
     return false
   }
-  return ['TRANSACTION_RECEIVED', 'RECEIVED', 'PENDING'].includes(status)
+  return ['RECEIVED', 'PENDING', 'NOT_RECEIVED'].includes(status)
 }
-function isSuccess(status: Status | TransactionStatus | undefined) {
+function isSuccess(status: TransactionStatus | undefined) {
   if (!status) {
     return false
   }
   return ['ACCEPTED_ON_L2', 'ACCEPTED_ON_L1'].includes(status)
 }
-function isFail(status: Status | TransactionStatus | undefined) {
+function isFail(status: TransactionStatus | undefined) {
   if (!status) {
     return false
   }
-  return ['REJECTED'].includes(status)
+  return ['REJECTED', 'REVERTED'].includes(status)
 }
 
 function shouldRefreshTransaction(transaction: Transaction, now: number): boolean {
   // try to get transaction data as soon as possible
-  if (transaction.status === 'TRANSACTION_RECEIVED') {
+  if (transaction.status === 'RECEIVED') {
     return true
   }
 
@@ -37,10 +37,10 @@ function shouldRefreshTransaction(transaction: Transaction, now: number): boolea
 
   // every couple of minutes is enough. Blocks finalized infrequently.
   if (transaction.status === 'ACCEPTED_ON_L2') {
-    return now - transaction.lastUpdatedAt > 120000
+    return now - transaction?.lastUpdatedAt > 120000
   }
 
-  return now - transaction.lastUpdatedAt > 15000
+  return now - transaction?.lastUpdatedAt > 15000
 }
 
 let intervalId: number
@@ -82,7 +82,10 @@ export const StarknetTransactionManagerProvider = defineComponent({
       try {
         const transactionResponse = await library.value.getTransactionReceipt(transactionHash)
         const lastUpdatedAt = Date.now()
-        if (transactionResponse.status === 'NOT_RECEIVED') {
+        const finalityStatus: TransactionFinalityStatus = (transactionResponse as any).finality_status
+        const status = finalityStatus ? finalityStatus : transactionResponse.status
+
+        if (!status || status === 'NOT_RECEIVED') {
           return
         }
 
@@ -93,10 +96,6 @@ export const StarknetTransactionManagerProvider = defineComponent({
           return
         }
 
-        const status = transactionResponse.status
-        if (!status) {
-          return
-        }
         const newTransaction: Transaction = {
           transactionHash,
           lastUpdatedAt,

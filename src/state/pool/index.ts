@@ -1,7 +1,106 @@
+// import { defineStore } from "pinia";
+// import { ONE_BIPS } from "../../constants";
+// import getBalances from "../../data/getBalances";
+// import { Pair, Percent, StarknetChainId, Token, TokenAmount, ZERO } from "l0k_swap-sdk";
+// import { getAllPairs } from "../../server/pairs";
+//
+// export interface Pool {
+//   token0: Token
+//   token1: Token
+//   pair: Pair
+//   totalSupply: TokenAmount
+//   pairAddress: string
+//   decimals: number
+//   reserve0: string
+//   reserve1: string
+//   liquidity: number
+// }
+//
+// export interface UserPool {
+//   pair: Pair
+//   totalSupply: TokenAmount
+//   balance: TokenAmount
+//   APR: number
+//   poolShare: Percent
+//   poolShareView: string
+// }
+//
+// interface PoolState {
+//   pairs: Pool[]
+//   loadingPools: boolean
+//   userPools: UserPool[]
+//   loadingUserPools: boolean
+//   lastUpdateUserPoolAt: number | undefined
+// }
+//
+// interface PoolActions {
+//   getAllPairs: (chainId: StarknetChainId) => void
+//   getUserPairs: (chainId: StarknetChainId, account: string) => void
+// }
+//
+// export const usePoolStore = defineStore<'pool', PoolState, {}, PoolActions>('pool', {
+//   state: () => {
+//     return {
+//       pairs: [],
+//       loadingPools: false,
+//       userPools: [],
+//       loadingUserPools: false,
+//       lastUpdateUserPoolAt: undefined,
+//     }
+//   },
+//   actions: {
+//     async getAllPairs(chainId) {
+//       this.loadingPools = true
+//       this.pairs = []
+//       this.pairs = await getAllPairs(chainId)
+//       this.loadingPools = false
+//     },
+//     async getUserPairs(chainId, account) {
+//       if (!this.pairs.length) {
+//         return
+//       }
+//
+//       if (this.lastUpdateUserPoolAt && new Date().getTime() - this.lastUpdateUserPoolAt < 1000 * 60) {
+//         return
+//       }
+//
+//       const promises = this.pairs.map(async (item) => {
+//         const balance = await getBalances(account, item.pairAddress, chainId)
+//         if (balance) {
+//           const poolShare = new Percent(balance, item.totalSupply.raw.toString())
+//           return {
+//             pair: item.pair,
+//             totalSupply: item.totalSupply,
+//             APR: 0,//todo
+//             balance: new TokenAmount(item.pair.liquidityToken, balance),
+//             poolShare,
+//             poolShareView: (poolShare?.lessThan(ONE_BIPS) ? '<0.01' : poolShare.toFixed(2)) ?? '0',
+//           }
+//         }
+//         return undefined
+//       })
+//
+//       this.loadingUserPools = true
+//       const userPools = await Promise.allSettled(promises)
+//       this.lastUpdateUserPoolAt = new Date().getTime()
+//       this.loadingUserPools = false
+//
+//
+//       console.log("userPools",userPools);
+//       //todo
+//       // @ts-ignore
+//       this.userPools = userPools
+//       //   .map((item) => (item.status === 'fulfilled' ? item.value : undefined))
+//       //   .filter((item): item is UserPool => !!(item && item.balance.greaterThan(ZERO)))
+//     },
+//   },
+// })
+
+
 import { defineStore } from 'pinia'
 import { ONE_BIPS } from '../../constants'
 import getBalances from '../../data/getBalances'
-import { Pair, Percent, Token, TokenAmount, ZERO, ChainId } from 'l0k_swap-sdk'
+import { Pair, Percent, Token, TokenAmount, ZERO, StarknetChainId } from 'l0k_swap-sdk'
 import { getAllPairs } from '../../server/pairs'
 
 export interface Pool {
@@ -13,7 +112,7 @@ export interface Pool {
   decimals: number
   reserve0: string
   reserve1: string
-  APR: number
+  APR: string
   liquidity: number
 }
 
@@ -21,7 +120,7 @@ export interface UserPool {
   pair: Pair
   totalSupply: TokenAmount
   balance: TokenAmount
-  APR: number
+  APR: string
   poolShare: Percent
   poolShareView: string
 }
@@ -35,8 +134,8 @@ interface PoolState {
 }
 
 interface PoolActions {
-  getAllPairs: (chainId: ChainId) => void
-  getUserPairs: (chainId: ChainId, account: string) => void
+  getAllPairs: (chainId: StarknetChainId) => void
+  getUserPairs: (chainId: StarknetChainId, account: string) => void
 }
 
 export const usePoolStore = defineStore<'pool', PoolState, {}, PoolActions>('pool', {
@@ -54,7 +153,6 @@ export const usePoolStore = defineStore<'pool', PoolState, {}, PoolActions>('poo
       this.loadingPools = true
       this.pairs = []
       const pairs = await getAllPairs(chainId)
-      console.log('pairs', pairs);
       this.pairs = pairs
       this.loadingPools = false
     },

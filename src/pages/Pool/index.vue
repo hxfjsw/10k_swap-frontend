@@ -9,10 +9,7 @@
           {{ t('pool.title') }}
         </Text>
         <div class="tabs">
-          <Button class="pools" :size="'small'" :type="'secondary'" style="background-color: #111524;
-    border-radius: 5px;
-    color: #D5532A;
-    border: 1px solid #D5532A;" :disabled="currentNav === 'pools'" @click="currentNav = 'pools'">
+          <Button class="pools my_pool" :size="'small'" :type="'secondary'" :disabled="currentNav === 'pools'" @click="currentNav = 'pools'">
             {{ t('pool.pools') }}
           </Button>
           <Button class="my-pools" :size="'small'" style="background-color: #111524;
@@ -134,5 +131,12 @@ export default defineComponent({
       }
     }
   }
+}
+
+.my_pool{
+  background-color: #111524;
+  border-radius: 5px;
+  color: #D5532A;
+  border: 1px solid #D5532A;
 }
 </style>

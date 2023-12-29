@@ -2,7 +2,7 @@ import axios from './axios'
 import { SERVER_URLS } from '../constants'
 import { IResponse } from './types'
 import { ERR_OK } from './'
-import { ChainId } from 'l0k_swap-sdk'
+import { StarknetChainId } from 'l0k_swap-sdk'
 import { Pair, Summary, Transaction, TransactionType } from '../state/analytics/types'
 
 export interface TransactionsResponse {
@@ -33,7 +33,7 @@ export interface ChartsDataResponse {
 }
 
 export async function getTransactions(
-  chainId: ChainId,
+  chainId: StarknetChainId,
   { startTime, endTime, page, type }: { startTime: number; endTime: number; page: number; type: TransactionType | undefined }
 ) {
   try {
@@ -56,7 +56,7 @@ export async function getTransactions(
   }
 }
 
-export async function getPairs(chainId: ChainId, { startTime, endTime, page }: { startTime: number; endTime: number; page: number }) {
+export async function getPairs(chainId: StarknetChainId, { startTime, endTime, page }: { startTime: number; endTime: number; page: number }) {
   try {
     const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/pairs`, {
       params: { startTime, endTime, page },
@@ -71,7 +71,7 @@ export async function getPairs(chainId: ChainId, { startTime, endTime, page }: {
   }
 }
 
-export async function getChartsData(chainId: ChainId) {
+export async function getChartsData(chainId: StarknetChainId) {
   try {
     const res = await axios.get<IResponse<ChartsDataResponse>>(`${SERVER_URLS[chainId]}/analytics`)
     if (res.data.errCode === ERR_OK) {
@@ -85,7 +85,7 @@ export async function getChartsData(chainId: ChainId) {
 }
 
 
-export async function getTopTVLAccounts(chainId: ChainId,page:number) {
+export async function getTopTVLAccounts(chainId: StarknetChainId,page:number) {
   try {
     const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/get_snapshots`, {
       params: { page },
@@ -100,7 +100,7 @@ export async function getTopTVLAccounts(chainId: ChainId,page:number) {
   }
 }
 
-export async function getTopVolumeAccounts(chainId: ChainId,page:number) {
+export async function getTopVolumeAccounts(chainId: StarknetChainId,page:number) {
   try {
     const res = await axios.get<IResponse<PairResponse>>(`${SERVER_URLS[chainId]}/analytics/top_volume_accounts`, {
       params: { page },
@@ -115,7 +115,7 @@ export async function getTopVolumeAccounts(chainId: ChainId,page:number) {
   }
 }
 
-export async function getRankVolumeAccounts(chainId: ChainId,account_address:string) {
+export async function getRankVolumeAccounts(chainId: StarknetChainId,account_address:string) {
 
   if(account_address.length <66){
     account_address = '0x'+account_address.substring(2).padStart(64,'0');
@@ -141,7 +141,7 @@ interface RankTVLAccountsResponse {
   rank:number
 }
 
-export async function getRankTVLAccounts(chainId: ChainId,account_address:string) {
+export async function getRankTVLAccounts(chainId: StarknetChainId,account_address:string) {
 
   if(account_address.length <66){
     account_address = '0x'+account_address.substring(2).padStart(64,'0');

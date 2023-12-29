@@ -45,11 +45,10 @@ import { Pair, Token } from "l0k_swap-sdk";
 import useIsMobile from "../../hooks/useIsMobile";
 import AddTokenModal from "../../components/transaction/AddTokenModal.vue";
 import { Provider } from "starknet";
-import { Contract } from "starknet/dist/contract/default";
 import { parseBN2String } from "../../utils";
 import { addToken, existToken } from "../../constants/tokens";
 import { Field } from "../../state/swap/types";
-import { Abi } from "starknet/src/types/index";
+import { Abi, constants, Contract, RpcProvider } from "starknet5";
 
 export default defineComponent({
   components: {
@@ -118,7 +117,7 @@ export default defineComponent({
     const confirmAddToken = async (address: string) => {
       console.log(`Input value is: ${address}`);
 
-      const defaultProvider = new Provider({ network: "mainnet-alpha" });
+      const defaultProvider = new RpcProvider({nodeUrl: constants.NetworkName.SN_MAIN});
 
       // const address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
       const abi = [
@@ -431,12 +430,13 @@ export default defineComponent({
         }
       ] as Abi;
       const contract = new Contract(abi, address, defaultProvider);
-      const name_result = await contract.call("name", []);
+      const name_result = (await contract.call("name", [])) as bigint[];
       const name = parseBN2String(name_result[0]);
-      const symbol_result = await contract.call("symbol", []);
+      const symbol_result = (await contract.call("symbol", [])) as bigint[];
       const symbol = parseBN2String(symbol_result[0]);
-      const decimals_result = await contract.call("decimals", []);
-      const decimals = toRaw(decimals_result[0]).toNumber();
+      const decimals_result = (await contract.call(
+        "decimals", [])) as bigint[];
+      const decimals = (Number)(decimals_result[0]);
       if (!existToken(address)) {
         addToken(address, decimals, symbol, name);
       }

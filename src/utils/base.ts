@@ -1,5 +1,5 @@
 import { TokenAmount, JSBI, Token, ZERO } from 'l0k_swap-sdk'
-import { toBN } from 'starknet/utils/number'
+import { number } from 'starknet4'
 import { ESTIMATE_GAS_FREE, SupporteChainId } from '../constants'
 import { ethers } from '../constants/tokens'
 
@@ -30,7 +30,7 @@ export function getDeadlineFromNow(ttl: number) {
 }
 
 export function isEqualsAddress(addressA: string, addressB: string): boolean {
-  return toBN(addressA).eq(toBN(addressB))
+  return number.toBN(addressA).eq(number.toBN(addressB))
 }
 
 export function isSupportedChain(chainId: string | undefined) {
@@ -48,7 +48,8 @@ export function getDeductGasMaxAmount(amount: TokenAmount | undefined): TokenAmo
     return undefined
   }
 
-  const deductedAmount = isEther(amount.token) ? amount.subtract(new TokenAmount(amount.token, ESTIMATE_GAS_FREE)) : amount
+  const gasAmount = new TokenAmount(amount.token, ESTIMATE_GAS_FREE)
+  const deductedAmount = isEther(amount.token) && amount.greaterThan(gasAmount) ? amount.subtract(gasAmount) : amount
 
   return deductedAmount.lessThan(ZERO) || deductedAmount.equalTo(ZERO) ? undefined : deductedAmount
 }

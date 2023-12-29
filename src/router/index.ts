@@ -14,7 +14,6 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/analytics', name: 'Analytics', component: Analytics },
   { path: '/lp_contest', name: 'LpRank', component: LpRank },
   { path: '/swap_contest', name: 'SwapRank', component: SwapRank },
-
 ]
 
 const router = createRouter({

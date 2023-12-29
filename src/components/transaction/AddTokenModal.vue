@@ -56,10 +56,9 @@ import tokensList, { addToken, existToken } from "../../constants/tokens";
 import { useStarknet } from "../../starknet-vue/providers/starknet";
 import TokenLogo from "../TokenLogo/TokenLogo";
 import { debounce } from "lodash";
-import { Provider } from "starknet";
-import { Contract } from "starknet/dist/contract/default";
 import { parseBN2String } from "../../utils";
-import {  StarknetChainId, Token } from "l0k_swap-sdk";
+import { StarknetChainId, Token } from "l0k_swap-sdk";
+import { constants, Contract, RpcProvider } from "starknet5";
 
 export default defineComponent({
   props: {
@@ -76,7 +75,7 @@ export default defineComponent({
     Button,
     TokenLogo
   },
-  emits: ["dismiss", "confirm"],
+  emits: ["dismiss", "confirm","select_token"],
   setup(props, { emit }) {
     const { show } = toRefs(props);
     const { t } = useI18n();
@@ -90,7 +89,7 @@ export default defineComponent({
 
 
     const refresh = async (address: string) => {
-      const defaultProvider = new Provider({ network: "mainnet-alpha" });
+      const defaultProvider = new RpcProvider({ nodeUrl: constants.NetworkName.SN_MAIN });
 
       const abi = [
         {
@@ -402,12 +401,12 @@ export default defineComponent({
         }
       ];
       const contract = new Contract(abi, address, defaultProvider);
-      const name_result = await contract.call("name", []);
+      const name_result = (await contract.call("name", [])) as bigint[];
       const name = parseBN2String(name_result[0]);
-      const symbol_result = await contract.call("symbol", []);
+      const symbol_result = (await contract.call("symbol", [])) as bigint[];
       const symbol = parseBN2String(symbol_result[0]);
-      const decimals_result = await contract.call("decimals", []);
-      const decimals = toRaw(decimals_result[0]).toNumber();
+      const decimals_result = (await contract.call("decimals", [])) as bigint[];
+      const decimals = (Number)(decimals_result[0]);
       if (!existToken(address)) {
         addToken(address, decimals, symbol, name);
       }
@@ -420,7 +419,7 @@ export default defineComponent({
       console.log(tokens.list.length);
       await refresh(address);
       await nextTick();
-      tokens.list = tokensList[ChainId.MAINNET];
+      tokens.list = tokensList[StarknetChainId.MAINNET];
       console.log(tokens.list.length);
       await nextTick();
       inputValue.value = "";
