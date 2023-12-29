@@ -20,7 +20,7 @@
       <div class=""
            style="background-color: #111524;height: 200px;width: 500px;border-radius:20px;padding:16px;float: right">
 
-        <div style="font-size: 48px;color: #d5532a">StarkEx
+        <div style="font-size: 48px;color: #d5532a">AstroSwap
           <div v-if="rank!=null" style="font-size: 24px; position: relative;float: right">Rank {{ rank.rank }}</div>
           <div v-else-if="account" style="font-size: 24px; position: relative;float: right">Rank 0</div>
         </div>

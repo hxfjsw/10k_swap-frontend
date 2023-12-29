@@ -23,8 +23,8 @@ export const CHAIN_LABELS: { [chainId in StarknetChainId]: string } = {
 }
 
 export const SERVER_URLS: { [chainId in StarknetChainId]: string } = {
-  [StarknetChainId.MAINNET]: 'https://api.starkex.org',
-  [StarknetChainId.TESTNET]: 'https://api.starkex.org',
+  [StarknetChainId.MAINNET]: 'https://api.starkdex.net',
+  [StarknetChainId.TESTNET]: 'https://api.starkdex.net',
 }
 
 export const SupporteChainId = StarknetChainId.MAINNET

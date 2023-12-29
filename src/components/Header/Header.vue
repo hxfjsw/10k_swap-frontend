@@ -1,8 +1,10 @@
 <template>
   <div class="l0k-swap-app-header">
     <div class="app-logo">
-      <img class="logo" src="./logo.png" />
-      <img class="alpha" src="./alpha.png" />
+<!--      <img class="logo" src="./logo.png" />-->
+<!--      <img class="alpha" src="./alpha.png" />-->
+      <a href="https://astroswap.xyz/" target="_blank"> <img src="./stark.png" alt="" class="stark"></a>
+
     </div>
     <Nav class="l0k-swap-app-header-nav" />
     <Connector class="l0k-swap-app-header-connector" />

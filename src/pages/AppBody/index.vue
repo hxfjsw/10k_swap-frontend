@@ -1,6 +1,5 @@
 <template>
   <div class="l0k-swap-app-body">
-    <img src="./stark.png" alt="" class="stark">
     <Placard />
     <MHeader />
     <Popups />

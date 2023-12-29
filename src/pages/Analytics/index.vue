@@ -97,14 +97,28 @@ export default defineComponent({
         return undefined
       }
 
-      const tvls = chartsData.value.tvls
-      const lastTvl = tvls[tvls.length - 1].tvl
-      const yesterdayTvl = tvls[tvls.length - 2].tvl
+      if (chartsData.value===undefined) {
+        return undefined
+      }
 
-      const diff = lastTvl - yesterdayTvl
-      const percent = (diff / yesterdayTvl) * 100
+      if (typeof chartsData.value === 'undefined') {
+        return undefined
+      }
 
-      return [numeral(lastTvl).format('$0.0 a').toUpperCase(), Math.abs(percent) > 1e-2 ? percent : undefined]
+      try {
+        const tvls = chartsData.value.tvls
+        const lastTvl = tvls[tvls.length - 1].tvl
+        const yesterdayTvl = tvls[tvls.length - 2].tvl
+
+        const diff = lastTvl - yesterdayTvl
+        const percent = (diff / yesterdayTvl) * 100
+
+        return [numeral(lastTvl).format('$0.0 a').toUpperCase(), Math.abs(percent) > 1e-2 ? percent : undefined]
+      }catch (e){
+        console.log(e)
+      }finally {
+        return undefined
+      }
     })
 
     const lastVolume = computed<undefined | [string, number | undefined]>(() => {

@@ -16,10 +16,10 @@ import MirrorIcon from './mirror.png'
 import TwitterIcon from './twitter.png'
 
 const socials = [
-  { link: 'https://twitter.com/starkex_org', icon: TwitterIcon },
-  { link: 'https://github.com/cantlee/StarkExContracts', icon: GithubIcon },
+  { link: 'https://x.com/astroswapreal', icon: TwitterIcon },
+  { link: 'https://github.com/Astro-swap/Contracts', icon: GithubIcon },
   { link: 'https://docs.starkex.org/', icon: DocIcon },
-  { link: 'https://discord.gg/5wqregJCjx', icon: DiscordIcon },
+  { link: 'https://discord.gg/b3XwHcC5Qy', icon: DiscordIcon },
   // { link: '#', icon: DocIcon },
 ]
 
